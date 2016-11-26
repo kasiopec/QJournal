@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".edit_subevent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Event and category editor"
+        android:textColor="#ffffff"
+        android:padding="7dp"
+        android:id="@+id/textView4"
+        android:background="@drawable/side_nav_bar"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:ellipsize="start"
+        android:gravity="center"
+        android:id="@+id/cattitle"
+        android:background="@drawable/side_nav_bar"
+        android:hint="Enter new event or category title"
+        android:textColor="#ffffff"
+        android:textAlignment="center"
+        android:singleLine="true"
+        android:layout_below="@+id/textView4"/>
+    <EditText
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:ellipsize="start"
+        android:gravity="center"
+        android:id="@+id/itemname"
+        android:background="@drawable/edittextstyle"
+        android:hint="Enter new event or category title"
+        android:textAlignment="center"
+        android:singleLine="true"
+        android:inputType="textCapSentences"
+        android:layout_below="@+id/cattitle"/>
+    ListView
+        android:layout_width="match_parent"
+        android:id="@+id/sublist"
+        android:dividerHeight="3dp"
+        android:descendantFocusability="blocksDescendants"
+        style="@style/AppTheme.AppBarOverlay"
+        android:background="@drawable/side_nav_bar"
+        android:layout_alignBottom="@+id/textView10"
+        android:layout_below="@+id/itemname"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="25dp"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:text="Date"
+        android:id="@+id/btndate"
+        android:background="@drawable/side_nav_bar"
+        android:onClick="showDatePickerDialog"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:layout_alignTop="@+id/btnstarttime"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:text="Start time"
+        android:id="@+id/btnstarttime"
+        android:background="@drawable/side_nav_bar"
+        android:onClick="showTimePickerDialog"
+        android:textAlignment="center"
+        android:layout_alignTop="@+id/btnendtime"
+        android:textColor="#ffffff"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:text="End time"
+        android:id="@+id/btnendtime"
+        android:background="@drawable/side_nav_bar"
+        android:textColor="#ffffff"
+        android:onClick="showTimePickerDialogend"
+        android:textAlignment="center"
+        android:layout_below="@+id/textView12"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="30dp" />
+
+
+    <Button
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:text="Update event"
+        android:id="@+id/addnewcat"
+        android:textAlignment="center"
+        android:background="@drawable/side_nav_bar"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/btnendtime"
+        android:layout_centerHorizontal="true"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Pick date"
+        android:id="@+id/textView10"
+        android:layout_below="@+id/itemname"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Pick start time"
+        android:id="@+id/textView11"
+        android:layout_below="@+id/itemname"
+        android:layout_alignLeft="@+id/btnstarttime"
+        android:layout_alignStart="@+id/btnstarttime" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Pick end time"
+        android:id="@+id/textView12"
+        android:layout_below="@+id/itemname"
+        android:layout_alignLeft="@+id/btnendtime"
+        android:layout_alignStart="@+id/btnendtime" />
+
+    <Button
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:text="Home"
+        android:id="@+id/home"
+        android:textAlignment="center"
+        android:background="@drawable/side_nav_bar"
+        android:paddingRight="15dp"
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:text="Back to date"
+        android:id="@+id/event"
+        android:textAlignment="center"
+        android:background="@drawable/side_nav_bar"
+        android:paddingLeft="15dp"
+        android:textColor="#ffffff"
+        android:layout_alignBottom="@+id/home"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>

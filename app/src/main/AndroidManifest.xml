@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.sean.qjournalv11">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/Home_activity_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".edit_subevent"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
+
+        <receiver android:name=".NotificationPublisher" />
+
+        <service android:name=".NotificationService" />
+
+        <activity
+            android:name=".History"
+            android:label="@string/title_activity_history"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Show_History" />
+        <activity android:name=".Daily_report" />
+        <activity android:name=".Activity_report" />
+        <activity android:name=".Goals" />
+        <activity android:name=".editor_subevent" />
+        <activity android:name=".Goal_setting" />
+        <activity android:name=".Goal_setting_edit" />
+        <activity android:name=".Goals_cat" />
+        <activity android:name=".Help" />
+        <activity android:name=".Share"></activity>
+    </application>
+
+</manifest>
