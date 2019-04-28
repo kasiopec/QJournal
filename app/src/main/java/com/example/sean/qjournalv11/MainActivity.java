@@ -1,14 +1,24 @@
 package com.example.sean.qjournalv11;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,14 +28,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,11 +52,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ParentFragment.OnFragmentInteractionListener {
     private EventOperations eventDBoperation;
     private ListView m_listview;
+    private GoalsAdapter goalsAdapter;
 
     private SimpleCursorAdapter dataAdapter;
+
 
     private int hours;
 
@@ -61,6 +75,17 @@ public class MainActivity extends AppCompatActivity
         }
 
 
+        FloatingActionButton fab = findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, History.class);
+                startActivity(intent);
+
+
+            }
+        });
 
 
 
@@ -68,16 +93,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        TextView txtmotov = (TextView) findViewById(com.example.sean.qjournalv11.R.id.txtmoto);
-        Random r = new Random();
-        int i1 = r.nextInt(3);
-        // moto liste
-        String[] motonr={"What you have done the last 2 hours?"
-                ,"In future you don't need to remeber what you did today, if you keep a journal"
-                ,"The goals would be more achiveable if you following them with track."};
 
-
-        txtmotov.setText(motonr[i1]);
 
         eventDBoperation = new EventOperations(this);
         eventDBoperation.open();
@@ -106,36 +122,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        dataAdapter = new SimpleCursorAdapter(
-                this, com.example.sean.qjournalv11.R.layout.list_layout,
-                cursor,columns,to,0);
-
-
-        m_listview = (ListView) findViewById(com.example.sean.qjournalv11.R.id.list);
-
-
-
-        m_listview.setAdapter(dataAdapter);
-
-
-        m_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                String nid = Long.toString(m_listview.getItemIdAtPosition(position));
-
-                // Toast.makeText(getBaseContext(), parent.getItemAtPosition(position).getLong(0), Toast.LENGTH_LONG).show();
-                //String nid=Long.toString(position);
-
-                //m_listview.getAdapter().getItem(position);
-                Intent intent = new Intent(MainActivity.this, edit_subevent.class);
-                intent.putExtra("id", nid);
-                intent.putExtra("cat", "");
-                startActivity(intent);
-
-
-            }
-        });
 
 String sharewithusstatus=eventDBoperation.getSettingStatus("sharingwithus");
        if(sharewithusstatus.equals("1")) {
@@ -158,9 +144,16 @@ String sharewithusstatus=eventDBoperation.getSettingStatus("sharingwithus");
                        , "", "");
            }
        }
+
+
         Toolbar toolbar = (Toolbar) findViewById(com.example.sean.qjournalv11.R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ViewPager viewPager =  (ViewPager) findViewById(R.id.viewPagerMain);
+        setupViewPager(viewPager);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayoutMain);
+        tabLayout.setupWithViewPager(viewPager);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(com.example.sean.qjournalv11.R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -171,7 +164,7 @@ String sharewithusstatus=eventDBoperation.getSettingStatus("sharingwithus");
         NavigationView navigationView = (NavigationView) findViewById(com.example.sean.qjournalv11.R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+/*
         Button btn1 = (Button) findViewById(com.example.sean.qjournalv11.R.id.button);
         btn1.setOnClickListener(new View.OnClickListener() {
 
@@ -217,6 +210,7 @@ String sharewithusstatus=eventDBoperation.getSettingStatus("sharingwithus");
 
             }
         });
+*/
 
 
 
@@ -249,8 +243,52 @@ String sharewithusstatus=eventDBoperation.getSettingStatus("sharingwithus");
             btn7.setText(response.toString());
         }catch (IOException e){
 
-        }*/
+        }
 
+        */
+
+    }
+
+
+    private void setupViewPager(ViewPager viewPager){
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(ParentFragment.newInstance("Weekly"), "WEEKLY");
+        adapter.addFragment(ParentFragment.newInstance("Monthly"), "MONTHLY");
+        viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter{
+
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            return mFragmentList.get(i);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title){
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        public CharSequence getPageTitle(int position){
+            return mFragmentTitleList.get(position);
+        }
     }
 
     public boolean isMyServiceRunning(Class<?> serviceClass){
@@ -328,12 +366,6 @@ String sharewithusstatus=eventDBoperation.getSettingStatus("sharingwithus");
             i2.putExtra("cat", "");
             startActivity(i2);
 
-        } else if (id == com.example.sean.qjournalv11.R.id.nav_goals) {
-            Intent i = new Intent(getBaseContext(), Goals.class);
-            startActivity(i);
-        } else if (id == com.example.sean.qjournalv11.R.id.nav_history){
-            Intent i = new Intent(getBaseContext(), History.class);
-            startActivity(i);
         } else if (id == com.example.sean.qjournalv11.R.id.nav_help){
             Intent i = new Intent(getBaseContext(), Help.class);
             startActivity(i);

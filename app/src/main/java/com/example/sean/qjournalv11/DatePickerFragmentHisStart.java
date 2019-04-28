@@ -32,7 +32,7 @@ public class DatePickerFragmentHisStart extends DialogFragment
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         //Button stbutton = (Button)getActivity().findViewById(R.id.datestart);
-        TextView pickedStart = (TextView)getActivity().findViewById(com.example.sean.qjournalv11.R.id.datestart);
+        //TextView pickedStart = (TextView)getActivity().findViewById(com.example.sean.qjournalv11.R.id.datestart);
         if (day != DialogInterface.BUTTON_NEGATIVE && month != DialogInterface.BUTTON_NEGATIVE && year != DialogInterface.BUTTON_NEGATIVE) {
 
             String Month = Integer.toString(month + 1);
@@ -41,7 +41,7 @@ public class DatePickerFragmentHisStart extends DialogFragment
             if (day <= 9) Day = "0" + Day;
             String outset = Integer.toString(year) + "-" + Month + "-" + Day;
 
-            pickedStart.setText(outset);
+           // pickedStart.setText(outset);
         }
     }
 }

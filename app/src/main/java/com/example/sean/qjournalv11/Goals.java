@@ -1,90 +1,97 @@
 package com.example.sean.qjournalv11;
 
-import android.content.Intent;
-import android.database.Cursor;
-import android.support.v4.widget.SimpleCursorAdapter;
+
+
+import android.support.design.bottomappbar.BottomAppBar;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Goals extends AppCompatActivity {
-    private EventOperations eventDBoperation;
-    private ListView m_listview;
-
-    private SimpleCursorAdapter dataAdapter;
+    LinearLayout ll;
+    TextView bottomText;
+    BottomAppBar bottomAppBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.example.sean.qjournalv11.R.layout.activity_goals);
 
+        setTitle(getString(R.string.categoryActivityTitle, "XXCategory"));
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        eventDBoperation = new EventOperations(this);
-        eventDBoperation.open();
-        //Event stud = eventDBoperation.addEvent("Add new event");
+        bottomAppBar = (BottomAppBar) findViewById(R.id.bottomAppBar);
+        bottomAppBar.replaceMenu(R.menu.bottom_app_bar_menu);
 
-        //  List values = eventDBoperation.getAllEvents("0");
-
-
-        Cursor cursor =eventDBoperation.getAllGoals();
-
-
-
-
-        // The desired columns to be bound
-        String[] columns = new String[] {
-                DataBaseWrapper.GOALS_ID,
-                DataBaseWrapper.GOALS_NAME
-        };
-
-        // the XML defined views which the data will be bound to
-        int[] to = new int[] {
-                com.example.sean.qjournalv11.R.id._id,
-                com.example.sean.qjournalv11.R.id._name
-        };
-
-
-
-
-        dataAdapter = new SimpleCursorAdapter(
-                this, com.example.sean.qjournalv11.R.layout.list_layout,
-                cursor,columns,to,0);
-
-
-        m_listview = (ListView) findViewById(com.example.sean.qjournalv11.R.id.list);
-
-
-
-        m_listview.setAdapter(dataAdapter);
-
-
-        m_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                String nid = Long.toString(m_listview.getItemIdAtPosition(position));
-
-                // Toast.makeText(getBaseContext(), parent.getItemAtPosition(position).getLong(0), Toast.LENGTH_LONG).show();
-                //String nid=Long.toString(position);
-
-                //m_listview.getAdapter().getItem(position);
-                Intent intent = new Intent(Goals.this, Goals_cat.class);
-                intent.putExtra("id", nid);
-                startActivity(intent);
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                switch (id){
+                    case R.id.appBarEditGoal:
+                        FragmentManager fragManager= getSupportFragmentManager();
+                        EditGoalDialog editGoalDialog  = EditGoalDialog.newInstance("huj");
+                        editGoalDialog.show(fragManager, "tag");
 
 
+                    case R.id.appBarDel:
+
+                }
+                return false;
             }
         });
 
-        Button buttonhome = (Button) findViewById(com.example.sean.qjournalv11.R.id.home);
-        buttonhome.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabBottomBar);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(Goals.this, MainActivity.class);
-                startActivity(intent1);
+                ll.setVisibility(View.INVISIBLE);
             }
         });
+        bottomText = (TextView) findViewById(R.id.your_title);
+        ll= (LinearLayout) findViewById(R.id.bottomWrapper);
+        ll.setVisibility(View.INVISIBLE);
+
+
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_edit_category);
+
+        final List<String> data  = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            data.add(String.valueOf(i));
+        }
+
+        CategoryAdapter categoryAdapter = new CategoryAdapter(this, data, this);
+
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setAdapter(categoryAdapter);
+
+
+    }
+
+
+
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

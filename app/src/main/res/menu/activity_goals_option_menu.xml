@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuEditGoalName"
+        android:title="Edit Name" />
+
+    <item
+        android:id="@+id/menuEditTimeSpent"
+        android:title="Edit Time" />
+    <item
+        android:id="@+id/menuEditGoalWM"
+        android:title="Edit Type" />
+
+    <item
+        android:id="@+id/menuDelGoal"
+        android:title="Delete" />
+
+</menu>

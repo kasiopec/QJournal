@@ -1,0 +1,187 @@
+package com.example.sean.qjournalv11;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link ParentFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link ParentFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class ParentFragment extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "fragName";
+    private static final String ARG_PARAM2 = "param2";
+
+    private GoalsAdapter goalsAdapter;
+
+
+    // TODO: Rename and change types of parameters
+    private String tabName;
+    private String mParam2;
+
+    private OnFragmentInteractionListener mListener;
+
+    public ParentFragment() {
+        // Required empty public constructor
+    }
+
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @return A new instance of fragment ParentFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static ParentFragment newInstance(String param1) {
+        ParentFragment fragment = new ParentFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            tabName = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_parent, container, false);
+
+
+
+        LinearLayout nGoalLayout = (LinearLayout) view.findViewById(R.id.noGoalsLayout);
+        nGoalLayout.removeAllViews();
+
+        final RecyclerView rvGoals = (RecyclerView) view.findViewById(R.id.rw_goal_cards);
+
+
+
+        final ArrayList<String> data  = new ArrayList<>();
+        int goalsCount = 0;
+        if(tabName.equals("Weekly")){
+            goalsCount = 4;
+        }else{
+            goalsCount = 2;
+        }
+
+        for (int i = 0; i < goalsCount; i++) {
+            data.add(String.valueOf(i));
+        }
+
+        goalsAdapter = new GoalsAdapter(getContext(), data);
+
+
+        rvGoals.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvGoals.setNestedScrollingEnabled(false);
+        rvGoals.setAdapter(goalsAdapter);
+
+
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder grabbed, @NonNull RecyclerView.ViewHolder target) {
+
+                int pos_grabbed = grabbed.getAdapterPosition();
+                int pos_target = target.getAdapterPosition();
+                Collections.swap(data, pos_grabbed, pos_target);
+
+                goalsAdapter.notifyItemMoved(pos_grabbed, pos_target);
+                rvGoals.scrollToPosition(pos_target);
+
+
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+            }
+        });
+
+        helper.attachToRecyclerView(rvGoals);
+
+
+
+
+        // Inflate the layout for this fragment
+        return view;
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+}

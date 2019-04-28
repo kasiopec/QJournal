@@ -1,49 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Goals">
+    android:layout_gravity="center_horizontal"
+    android:animateLayoutChanges="true"
+    tools:context=".Goals" >
 
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_edit_category"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/bottomWrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Click on goal for report and edit or click on add for adding a new goal."
-        android:textColor="#ffffff"
-        android:padding="25dp"
-        android:id="@+id/textView2"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/side_nav_bar"
-        android:textAlignment="center"/>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/list"
-        android:dividerHeight="3dp"
-        android:descendantFocusability="blocksDescendants"
-        style="@style/AppTheme.AppBarOverlay"
-        android:background="@drawable/side_nav_bar"
-        android:layout_below="@id/textView2"
-        android:layout_marginTop="10dp"
-        android:layout_above="@id/home"
-        android:layout_marginBottom="10dp"/>
-
-    <Button
-        android:layout_width="140dp"
-        android:layout_height="40dp"
-        android:text="Home"
-        android:id="@+id/home"
-        android:textAlignment="center"
-        android:background="@drawable/side_nav_bar"
-        android:textColor="#ffffff"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_height="90dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
 
 
-</RelativeLayout>
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabBottomBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_anchor="@id/bottomAppBar"
+                app:srcCompat="@drawable/ic_close_black_24dp"/>
+
+            <android.support.design.bottomappbar.BottomAppBar
+                android:id="@+id/bottomAppBar"
+                style="@style/Widget.MaterialComponents.BottomAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:clickable="false"
+                app:fabAlignmentMode="end"
+                app:backgroundTint="@color/colorPrimary">
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/your_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:layout_centerInParent="true"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"/>
+
+                </RelativeLayout>
+
+            </android.support.design.bottomappbar.BottomAppBar>
+
+
+        </android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
+
+
+

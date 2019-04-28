@@ -33,13 +33,13 @@ public class DatePickerFragmentHisEnd extends DialogFragment
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         //Button stbutton = (Button)getActivity().findViewById(R.id.datestart);
-        TextView pickedEnd = (TextView)getActivity().findViewById(com.example.sean.qjournalv11.R.id.dateend);
+       // TextView pickedEnd = (TextView)getActivity().findViewById(com.example.sean.qjournalv11.R.id.dateend);
         String Month=Integer.toString(month+1);
         if(month<=9)Month="0"+Month;
         String Day=Integer.toString(day);
         if(day<=9)Day="0"+Day;
         String outset=Integer.toString(year) + "-" + Month + "-" + Day;
 
-        pickedEnd.setText(outset);
+       // pickedEnd.setText(outset);
     }
 }
