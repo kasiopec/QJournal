@@ -37,6 +37,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     private int sSpinnerItem;
 
+    //quick commit check
+
 
 
 
