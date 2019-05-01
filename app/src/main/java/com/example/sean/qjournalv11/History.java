@@ -121,9 +121,6 @@ public class History extends AppCompatActivity
 
 
 
-
-
-
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
@@ -134,36 +131,6 @@ public class History extends AppCompatActivity
         if(day<=9)Day="0"+Day;
         String outset=Integer.toString(year) + "-" + Month + "-" + Day;
 
-
-
-        /*
-        Button button1 = (Button) findViewById(com.example.sean.qjournalv11.R.id.datesubmit);
-        button1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                TextView dstart = (TextView) findViewById(com.example.sean.qjournalv11.R.id.datestart);
-                String dstartv = dstart.getText().toString();
-
-                TextView dendt = (TextView) findViewById(com.example.sean.qjournalv11.R.id.dateend);
-                String dendv = dendt.getText().toString();
-
-                Intent intent1 = new Intent(History.this, Daily_report.class);
-                intent1.putExtra("dstartv",dstartv);
-                intent1.putExtra("dendv",dendv);
-                startActivity(intent1);
-            }
-        });
-
-
-        Button buttonhome = (Button) findViewById(com.example.sean.qjournalv11.R.id.home);
-        buttonhome.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent1 = new Intent(History.this, MainActivity.class);
-                startActivity(intent1);
-            }
-        });
-
-        */
 
     }
 
@@ -299,10 +266,6 @@ public class History extends AppCompatActivity
                 Intent i1 = new Intent(getBaseContext(), Goals.class);
                 startActivity(i1);
                 return true;
-            case com.example.sean.qjournalv11.R.id.action_30:
-                Intent i2 = new Intent(getBaseContext(), Activity_report.class);
-                startActivity(i2);
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -317,14 +280,6 @@ public class History extends AppCompatActivity
         if (id == com.example.sean.qjournalv11.R.id.nav_home) {
             Intent i = new Intent(getBaseContext(), MainActivity.class);
             startActivity(i);
-
-        } else if (id == com.example.sean.qjournalv11.R.id.nav_activities) {
-            Intent i2 = new Intent(getBaseContext(), Activity_report.class);
-
-            i2.putExtra("id", "0");
-            i2.putExtra("cat", "");
-            startActivity(i2);
-
         } else if (id == com.example.sean.qjournalv11.R.id.nav_goals) {
             Intent i = new Intent(getBaseContext(), Goals.class);
             startActivity(i);

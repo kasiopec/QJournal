@@ -88,62 +88,8 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-
-
-
-
-
-
-
         eventDBoperation = new EventOperations(this);
         eventDBoperation.open();
-        //Event stud = eventDBoperation.addEvent("Add new event");
-
-     //  List values = eventDBoperation.getAllEvents("0");
-
-
-        Cursor cursor =eventDBoperation.getAllEventsc("0");
-
-
-
-
-        // The desired columns to be bound
-        String[] columns = new String[] {
-                DataBaseWrapper.EVENT_ID,
-                DataBaseWrapper.EVENT_NAME
-        };
-
-        // the XML defined views which the data will be bound to
-        int[] to = new int[] {
-                com.example.sean.qjournalv11.R.id._id,
-                com.example.sean.qjournalv11.R.id._name
-        };
-
-
-
-
-
-String sharewithusstatus=eventDBoperation.getSettingStatus("sharingwithus");
-       if(sharewithusstatus.equals("1")) {
-           String android_id = Settings.Secure.getString(this.getContentResolver(),
-                   Settings.Secure.ANDROID_ID);
-
-           Cursor cursorsync = eventDBoperation.getAllEventsSync();
-           for (cursorsync.moveToFirst(); !cursorsync.isAfterLast(); cursorsync.moveToNext()) {
-               SendDataToServer(android_id, "events", cursorsync.getString(0), cursorsync.getString(1), cursorsync.getString(2)
-                       , cursorsync.getString(3), cursorsync.getString(4), cursorsync.getString(5)
-                       , cursorsync.getString(6), cursorsync.getString(7), cursorsync.getString(8)
-                       , cursorsync.getString(9), cursorsync.getString(10));
-           }
-
-           Cursor cursorsyncg = eventDBoperation.getAllGoalsSync();
-           for (cursorsyncg.moveToFirst(); !cursorsyncg.isAfterLast(); cursorsyncg.moveToNext()) {
-               SendDataToServer(android_id, "goals", cursorsyncg.getString(0), cursorsyncg.getString(1), cursorsyncg.getString(2)
-                       , cursorsyncg.getString(3), cursorsyncg.getString(4), cursorsyncg.getString(5)
-                       , cursorsyncg.getString(6), "", ""
-                       , "", "");
-           }
-       }
 
 
         Toolbar toolbar = (Toolbar) findViewById(com.example.sean.qjournalv11.R.id.toolbar);
@@ -163,89 +109,6 @@ String sharewithusstatus=eventDBoperation.getSettingStatus("sharingwithus");
 
         NavigationView navigationView = (NavigationView) findViewById(com.example.sean.qjournalv11.R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-/*
-        Button btn1 = (Button) findViewById(com.example.sean.qjournalv11.R.id.button);
-        btn1.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                hours = 4;
-                Intent intentService = new Intent(getBaseContext(), NotificationService.class);
-                intentService.putExtra("hours", hours);
-                Toast.makeText(getApplicationContext(), "Notification in " + hours + " hours.", Toast.LENGTH_LONG).show();
-                stopService(intentService);
-                startService(intentService);
-
-
-            }
-        });
-
-        Button btn2 = (Button) findViewById(com.example.sean.qjournalv11.R.id.button2);
-        btn2.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                hours = 6;
-                Intent intentService = new Intent(getBaseContext(), NotificationService.class);
-                intentService.putExtra("hours", hours);
-                Toast.makeText(getApplicationContext(), "Notification in " + hours + " hours.", Toast.LENGTH_LONG).show();
-                stopService(intentService);
-                startService(intentService);
-
-            }
-        });
-
-        Button btn3 = (Button) findViewById(com.example.sean.qjournalv11.R.id.button3);
-        btn3.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                hours = 12;
-                Intent intentService = new Intent(getBaseContext(), NotificationService.class);
-                intentService.putExtra("hours", hours);
-                Toast.makeText(getApplicationContext(), "Notification in " + hours + " hours.", Toast.LENGTH_LONG).show();
-                stopService(intentService);
-                startService(intentService);
-
-            }
-        });
-*/
-
-
-
-       // new SyncData();
-
-
-/*
-        String url = "http://www.parsvisa.com/sean/sean/api1/index.php";
-        String charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
-        String param1 = "value1";
-        String param2 = "value2";
-
-        URLConnection.setDefaultAllowUserInteraction(true);
-        try {
-            String query = String.format("param1=%s&param2=%s",
-                    URLEncoder.encode(param1, charset),
-                    URLEncoder.encode(param2, charset));
-
-            URLConnection connection = new URL(url).openConnection();
-            connection.setDoOutput(true); // Triggers POST.
-            connection.setRequestProperty("Accept-Charset", charset);
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
-            OutputStream output=connection.getOutputStream();
-            output.write(query.getBytes(charset));
-
-
-            InputStream response = connection.getInputStream();
-
-            Button btn7 = (Button) findViewById(R.id.button2);
-            btn7.setText(response.toString());
-        }catch (IOException e){
-
-        }
-
-        */
 
     }
 
@@ -335,13 +198,9 @@ String sharewithusstatus=eventDBoperation.getSettingStatus("sharingwithus");
                 Intent i0 = new Intent(getBaseContext(), History.class);
                 startActivity(i0);
                 return true;
-            case com.example.sean.qjournalv11.R.id.action_10:
-                Intent i1 = new Intent(getBaseContext(), Goals.class);
-                startActivity(i1);
+            case R.id.goals:
                 return true;
-            case com.example.sean.qjournalv11.R.id.action_30:
-                Intent i2 = new Intent(getBaseContext(), Activity_report.class);
-                startActivity(i2);
+            case R.id.activities:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -360,18 +219,13 @@ String sharewithusstatus=eventDBoperation.getSettingStatus("sharingwithus");
             startActivity(i);
 
         } else if (id == com.example.sean.qjournalv11.R.id.nav_activities) {
-            Intent i2 = new Intent(getBaseContext(), Activity_report.class);
-
-            i2.putExtra("id", "0");
-            i2.putExtra("cat", "");
-            startActivity(i2);
+            //link to charts
 
         } else if (id == com.example.sean.qjournalv11.R.id.nav_help){
             Intent i = new Intent(getBaseContext(), Help.class);
             startActivity(i);
         } else if (id == R.id.nav_share){
-            Intent i = new Intent(getBaseContext(), Share.class);
-            startActivity(i);
+            //implement sharing function
         }else if (id == com.example.sean.qjournalv11.R.id.nav_exit){
             Intent homeIntent = new Intent(Intent.ACTION_MAIN);
             homeIntent.addCategory( Intent.CATEGORY_HOME );
@@ -384,57 +238,5 @@ String sharewithusstatus=eventDBoperation.getSettingStatus("sharingwithus");
         return true;
     }
 
-    public void SendDataToServer(final String androidid, final String table, final String id
-                                 ,final String name , final String raw, final String cat, final String upid
-            , final String descr, final String dated, final String starttimed
-            , final String endtimed, final String active
-            , final String sync){
-        class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
-            @Override
-            protected String doInBackground(String... params) {
-/*                String QuickName = name ;
-                String QuickEmail = email ;
-                String QuickWebsite = website;*/
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("androidid", androidid));
-                nameValuePairs.add(new BasicNameValuePair("table", table));
-                nameValuePairs.add(new BasicNameValuePair("id", id));
-                nameValuePairs.add(new BasicNameValuePair("name", name));
-                nameValuePairs.add(new BasicNameValuePair("raw", raw));
-                nameValuePairs.add(new BasicNameValuePair("cat", cat));
-                nameValuePairs.add(new BasicNameValuePair("upid", upid));
-                nameValuePairs.add(new BasicNameValuePair("descr", descr));
-                nameValuePairs.add(new BasicNameValuePair("dated", dated));
-                nameValuePairs.add(new BasicNameValuePair("starttimed", starttimed));
-                nameValuePairs.add(new BasicNameValuePair("endtimed", endtimed));
-                nameValuePairs.add(new BasicNameValuePair("active", active));
-                nameValuePairs.add(new BasicNameValuePair("sync", sync));
-                try {
-                    HttpClient httpClient = new DefaultHttpClient();
-                    HttpPost httpPost = new HttpPost("http://parsvisa.com/sean/app1/index.php");
-                    httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                    HttpResponse response = httpClient.execute(httpPost);
-                    HttpEntity entity = response.getEntity();
 
-                    eventDBoperation = new EventOperations(MainActivity.this);
-                    eventDBoperation.open();
-                    if(table.equals("events"))
-                    {eventDBoperation.setEventsSync(id);
-                    }else if(table.equals("goals"))
-                    {eventDBoperation.setGoalsSync(id);
-                    }
-                } catch (ClientProtocolException e) {
-                } catch (IOException e) {
-                }
-                return table;
-            }
-            @Override
-            protected void onPostExecute(String result) {
-                super.onPostExecute(result);
-                //Toast.makeText(MainActivity.this, "Data Submit Successfully", Toast.LENGTH_LONG).show();
-            }
-        }
-        SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
-        sendPostReqAsyncTask.execute(androidid,table,id,name,raw,cat,upid,descr,dated,starttimed,endtimed,active,sync);
-    }
 }

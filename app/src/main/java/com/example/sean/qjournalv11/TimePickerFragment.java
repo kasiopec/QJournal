@@ -29,14 +29,14 @@ public class TimePickerFragment extends DialogFragment
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-        Button stbutton = (Button)getActivity().findViewById(com.example.sean.qjournalv11.R.id.btnstarttime);
+       // Button stbutton = (Button)getActivity().findViewById(com.example.sean.qjournalv11.R.id.btnstarttime);
         String HourOfDay=Integer.toString(hourOfDay);
         if(hourOfDay<=9)HourOfDay="0"+HourOfDay;
         String Minute=Integer.toString(minute);
         if(minute<=9)Minute="0"+Minute;
         String outset=HourOfDay + ":" + Minute;
 
-        stbutton.setText(outset);
+       // stbutton.setText(outset);
 
     }
 

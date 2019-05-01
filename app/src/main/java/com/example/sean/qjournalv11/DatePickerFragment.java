@@ -28,12 +28,12 @@ public class DatePickerFragment extends DialogFragment
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        Button stbutton = (Button)getActivity().findViewById(com.example.sean.qjournalv11.R.id.btndate);
+        //Button stbutton = (Button)getActivity().findViewById(com.example.sean.qjournalv11.R.id.btndate);
         String Month=Integer.toString(month+1);
         if(month<=9)Month="0"+Month;
         String Day=Integer.toString(day);
         if(day<=9)Day="0"+Day;
         String outset=Integer.toString(year) + "-" + Month + "-" + Day;
-        stbutton.setText(outset);
+        //stbutton.setText(outset);
     }
 }

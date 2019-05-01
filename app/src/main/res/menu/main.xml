@@ -9,10 +9,10 @@
     <item android:id="@+id/action_5"
         android:title="History"
         app:showAsAction="never" />
-    <item android:id="@+id/action_10"
+    <item android:id="@+id/goals"
         android:title="Goals"
         app:showAsAction="never" />
-    <item android:id="@+id/action_30"
+    <item android:id="@+id/activities"
         android:title="Activities"
         app:showAsAction="never" />
 </menu>

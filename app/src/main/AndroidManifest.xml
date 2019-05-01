@@ -22,10 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".edit_subevent"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing" />
 
         <receiver android:name=".NotificationPublisher" />
 
@@ -36,17 +32,10 @@
             android:label="@string/newGoalTitle"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Show_History" />
-        <activity android:name=".Daily_report" />
-        <activity android:name=".Activity_report" />
         <activity
             android:name=".Goals"
             android:label="@string/categoryActivityTitle" />
-        <activity android:name=".editor_subevent" />
-        <activity android:name=".Goal_setting" />
-        <activity android:name=".Goal_setting_edit" />
-        <activity android:name=".Goals_cat" />
         <activity android:name=".Help" />
-        <activity android:name=".Share" />
     </application>
 
 </manifest>
