@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +43,13 @@ public class ParentFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private GoalsAdapter goalsAdapter;
-
+    private DatabaseHelper db;
+    ArrayList<Goal> finalData;
+    LinearLayout nGoalLayout;
+    RecyclerView rvGoals;
 
     // TODO: Rename and change types of parameters
-    private String tabName;
+    public String tabName;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
@@ -80,6 +85,7 @@ public class ParentFragment extends Fragment {
         }
 
 
+
     }
 
     @Override
@@ -87,33 +93,13 @@ public class ParentFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_parent, container, false);
 
+        nGoalLayout = (LinearLayout) view.findViewById(R.id.noGoalsLayout);
+        nGoalLayout.setVisibility(View.INVISIBLE);
 
-
-        LinearLayout nGoalLayout = (LinearLayout) view.findViewById(R.id.noGoalsLayout);
-        nGoalLayout.removeAllViews();
-
-        final RecyclerView rvGoals = (RecyclerView) view.findViewById(R.id.rw_goal_cards);
+        rvGoals = (RecyclerView) view.findViewById(R.id.rw_goal_cards);
 
 
 
-        final ArrayList<String> data  = new ArrayList<>();
-        int goalsCount = 0;
-        if(tabName.equals("Weekly")){
-            goalsCount = 4;
-        }else{
-            goalsCount = 2;
-        }
-
-        for (int i = 0; i < goalsCount; i++) {
-            data.add(String.valueOf(i));
-        }
-
-        goalsAdapter = new GoalsAdapter(getContext(), data);
-
-
-        rvGoals.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvGoals.setNestedScrollingEnabled(false);
-        rvGoals.setAdapter(goalsAdapter);
 
 
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
@@ -122,7 +108,7 @@ public class ParentFragment extends Fragment {
 
                 int pos_grabbed = grabbed.getAdapterPosition();
                 int pos_target = target.getAdapterPosition();
-                Collections.swap(data, pos_grabbed, pos_target);
+                Collections.swap(finalData, pos_grabbed, pos_target);
 
                 goalsAdapter.notifyItemMoved(pos_grabbed, pos_target);
                 rvGoals.scrollToPosition(pos_target);
@@ -151,6 +137,44 @@ public class ParentFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+        db = new DatabaseHelper(getContext());
+
+        ArrayList<Goal> rawdata  = db.getAllGoals();
+
+        finalData = new ArrayList<>();
+        Log.d("myDB", rawdata.toString());
+
+        if(tabName.equals("Weekly")){
+            for (int i = 0; i < rawdata.size(); i++) {
+                if(rawdata.get(i).getTimeFrame().equals("Weekly")){
+                    finalData.add(rawdata.get(i));
+                }
+            }
+        }else{
+            for (int i = 0; i < rawdata.size(); i++) {
+                if(rawdata.get(i).getTimeFrame().equals("Monthly")){
+                    finalData.add(rawdata.get(i));
+                }
+            }
+        }
+
+        goalsAdapter = new GoalsAdapter(getContext(), finalData, tabName);
+
+
+
+        rvGoals.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvGoals.setNestedScrollingEnabled(false);
+        rvGoals.setAdapter(goalsAdapter);
+
+
+
     }
 
     @Override

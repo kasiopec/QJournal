@@ -18,6 +18,10 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="MyAppBarLayoutTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlHighlight">@color/colorWhite</item>
+    </style>
+
 
 
     <style name="AppTheme.NoActionBar">

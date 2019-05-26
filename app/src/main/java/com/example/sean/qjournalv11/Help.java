@@ -26,7 +26,7 @@ public class Help extends AppCompatActivity {
                 "left empty and just keep the category as a lable, please be careful after adding event we don't create any " +
                 "message because this is quick journal and we directly take you to the page which you can add next event, if something " +
                 " needed to reedit or change you can find your entry alltimes in history page on the left drawer</small><br /><br />" +
-                "<b>History</b><br /><small>You can allwasy find all your event and categories in specific period of time in that page and " +
+                "<b>NewGoalActivity</b><br /><small>You can allwasy find all your event and categories in specific period of time in that page and " +
                 "you can simply edit them</small><br /><br />"+
                 "<b>Goal</b><br /><small>After you add a category, then you can choose that as goal, in this way you can follow how much time have you practice " +
                 "that category in the target time</small><br /><br />"+

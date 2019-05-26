@@ -1,18 +1,18 @@
 package com.example.sean.qjournalv11;
 
-import android.content.DialogInterface;
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextThemeWrapper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,29 +24,31 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.regex.Pattern;
 
-public class History extends AppCompatActivity
+public class NewGoalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    ArrayList<String> categories = new ArrayList<>();
+    DatabaseHelper db;
+    ArrayList<String> categories;
     Spinner catSpinner;
     ArrayAdapter<String> catAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history);
+        setContentView(R.layout.activity_new_goal);
+
+        db = new DatabaseHelper(this);
+        categories = db.getAllCategories();
 
 
-
-        categories.add("Sport");
-        categories.add("School");
-        categories.add("Gym");
-        categories.add("Games");
-        categories.add("Car");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -54,45 +56,29 @@ public class History extends AppCompatActivity
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-
-
-        /*
-        DrawerLayout drawer = (DrawerLayout) findViewById(com.example.sean.qjournalv11.R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, com.example.sean.qjournalv11.R.string.navigation_drawer_open, com.example.sean.qjournalv11.R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(com.example.sean.qjournalv11.R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        */
-
-
-
-        EditText goalName  = (EditText) findViewById(R.id.goalNameEdit);
-        EditText goalHours  = (EditText) findViewById(R.id.goalTextHours);
-        EditText goalMin  = (EditText) findViewById(R.id.goalTextMin);
+        final EditText editTextName  = (EditText) findViewById(R.id.goalNameEdit);
+        final EditText goalHours  = (EditText) findViewById(R.id.goalTextHours);
+        final EditText goalMin  = (EditText) findViewById(R.id.goalTextMin);
         Button btnSaveGoal = (Button) findViewById(R.id.btnSaveGoal);
         ImageButton btnAddCat = (ImageButton) findViewById(R.id.imgBtnNewCat);
         ImageButton btnDeleteCat = (ImageButton) findViewById(R.id.imgBtnDel);
+        final TextInputLayout nameTil = (TextInputLayout) findViewById(R.id.textInputLayoutGoalName);
+        final TextInputLayout hourTil = (TextInputLayout) findViewById(R.id.textInputLayoutHours);
+        final TextInputLayout minTil = (TextInputLayout) findViewById(R.id.textInputLayoutMin);
+
 
         catSpinner = (Spinner) findViewById(R.id.spinnerCategory);
-        Spinner wmSpinner = (Spinner) findViewById(R.id.spinnerWM);
+        final Spinner wmSpinner = (Spinner) findViewById(R.id.spinnerWM);
 
-
-
-
-
-
-
+        catAdapter = new ArrayAdapter<String> (this, R.layout.support_simple_spinner_dropdown_item, categories);
 
 
         ArrayAdapter<CharSequence> adapterWM = ArrayAdapter.createFromResource(this,
                 R.array.period_arrays, android.R.layout.simple_spinner_dropdown_item);
 
-        catAdapter = new ArrayAdapter<String> (this, R.layout.support_simple_spinner_dropdown_item, categories);
+
         //catAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
 
         catSpinner.setDropDownVerticalOffset(97);
         catSpinner.setAdapter(catAdapter);
@@ -118,6 +104,57 @@ public class History extends AppCompatActivity
 
             }
         });
+
+        btnSaveGoal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                v.setEnabled(false);
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        v.setEnabled(true);
+                    }
+                }, 500);
+                String name = editTextName.getText().toString();
+                String category = catSpinner.getSelectedItem().toString();
+                int hours = 0;
+                int min  = 0;
+
+                if(name.equals("")){
+                    nameTil.setError("Name can not be empty");
+                    return;
+                }else if(goalMin.getText().toString().equals("") && goalHours.getText().length() > 0){
+                    hours = Integer.parseInt(goalHours.getText().toString());
+                }else if (goalHours.getText().toString().equals("") && goalMin.getText().length()>0) {
+                    min = Integer.parseInt(goalMin.getText().toString());
+                }else if(goalHours.getText().length() == 0 && goalMin.getText().length() == 0) {
+                    hourTil.setError("Enter minutes or hours");
+                    minTil.setError(" ");
+                    return;
+                }else{
+
+                    min = Integer.parseInt(goalMin.getText().toString());
+                    hours = Integer.parseInt(goalHours.getText().toString());
+                }
+
+                int goalTimeInMin = hours*60 + min;
+
+                String timeFrame = wmSpinner.getSelectedItem().toString();
+
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Calendar cal = Calendar.getInstance();
+
+                String startDate = dateFormat.format(cal.getTime());
+
+                db.addGoal(name, category, timeFrame, goalTimeInMin, startDate);
+                Intent i = new Intent(NewGoalActivity.this, MainActivity.class);
+                startActivity(i);
+
+            }
+        });
+
+
 
 
 
@@ -162,7 +199,9 @@ public class History extends AppCompatActivity
                         if(regex.matcher(catName).find()){
                             aDialogTil.setError("Name contains restricted symbols");
                         }else{
+                            db.addCategory(catName);
                             categories.add(catName);
+                            catAdapter.notifyDataSetChanged();
                             alertDialog.dismiss();
                         }
 
@@ -193,6 +232,7 @@ public class History extends AppCompatActivity
                 btnYes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        db.removeCategory(catSpinner.getSelectedItem().toString());
                         categories.remove(catSpinner.getSelectedItemPosition());
                         catAdapter.notifyDataSetChanged();
                         alertDialog.dismiss();
@@ -211,6 +251,11 @@ public class History extends AppCompatActivity
         }
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -259,11 +304,11 @@ public class History extends AppCompatActivity
         }
         switch (item.getItemId()) {
             case com.example.sean.qjournalv11.R.id.action_5:
-                Intent i0 = new Intent(getBaseContext(), History.class);
+                Intent i0 = new Intent(getBaseContext(), NewGoalActivity.class);
                 startActivity(i0);
                 return true;
             case com.example.sean.qjournalv11.R.id.action_10:
-                Intent i1 = new Intent(getBaseContext(), Goals.class);
+                Intent i1 = new Intent(getBaseContext(), EditCategoryActivity.class);
                 startActivity(i1);
                 return true;
             default:
@@ -281,7 +326,7 @@ public class History extends AppCompatActivity
             Intent i = new Intent(getBaseContext(), MainActivity.class);
             startActivity(i);
         } else if (id == com.example.sean.qjournalv11.R.id.nav_goals) {
-            Intent i = new Intent(getBaseContext(), Goals.class);
+            Intent i = new Intent(getBaseContext(), EditCategoryActivity.class);
             startActivity(i);
 
         }else if (id == com.example.sean.qjournalv11.R.id.nav_exit){
@@ -291,7 +336,7 @@ public class History extends AppCompatActivity
             startActivity(homeIntent);
 
         } else if (id == com.example.sean.qjournalv11.R.id.nav_history){
-            Intent i = new Intent(getBaseContext(), History.class);
+            Intent i = new Intent(getBaseContext(), NewGoalActivity.class);
             startActivity(i);
         }
 

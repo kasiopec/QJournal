@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:animateLayoutChanges="true"
-    tools:context=".Goals" >
+    tools:context=".EditCategoryActivity" >
 
 
     <android.support.v7.widget.RecyclerView
@@ -38,7 +38,6 @@
         app:layout_constraintStart_toStartOf="parent"
         >
 
-
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -51,8 +50,11 @@
                 app:layout_anchor="@id/bottomAppBar"
                 app:srcCompat="@drawable/ic_close_black_24dp"/>
 
+
+
             <android.support.design.bottomappbar.BottomAppBar
                 android:id="@+id/bottomAppBar"
+                android:theme="@style/MyAppBarLayoutTheme"
                 style="@style/Widget.MaterialComponents.BottomAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,20 +63,6 @@
                 app:fabAlignmentMode="end"
                 app:backgroundTint="@color/colorPrimary">
 
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/your_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#fff"
-                        android:layout_centerInParent="true"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"/>
-
-                </RelativeLayout>
 
             </android.support.design.bottomappbar.BottomAppBar>
 

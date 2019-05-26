@@ -1,18 +1,16 @@
 package com.example.sean.qjournalv11;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.bottomappbar.BottomAppBar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -32,9 +29,8 @@ import java.util.List;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
     private Context mContext;
-    private List<String> goals;
-    Goals goalsActivity;
-
+    private List<Goal> goals;
+    private EditCategoryActivity editCategoryActivity;
     private int sSpinnerItem;
 
     //quick commit check
@@ -42,10 +38,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
 
 
-    public CategoryAdapter(Context mContext, List<String> goals, Goals goalsActivity) {
+    public CategoryAdapter(Context mContext, List<Goal> goals, EditCategoryActivity editCategoryActivity) {
         this.mContext = mContext;
         this.goals = goals;
-        this.goalsActivity = goalsActivity;
+        this.editCategoryActivity = editCategoryActivity;
     }
 
     public interface ItemClickListener{
@@ -103,9 +99,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int i) {
         final LayoutInflater inflater  = LayoutInflater.from(mContext);
-        holder.goalName.setText(goals.get(i));
-        holder.goalProgressBar.setProgress(20);
-        holder.goalPercent.setText(holder.goalProgressBar.getProgress()+"%");
+        holder.goalName.setText(goals.get(i).getName());
+        int goalPercentage = Math.round((float) goals.get(i).getCurrentTime() / goals.get(i).getGoalTime() * 100);
+
+        holder.goalProgressBar.setProgress(goalPercentage);
+        holder.goalPercent.setText(goalPercentage+"%");
 
         holder.setOnItemClickListener(new ItemClickListener() {
             @Override
@@ -154,8 +152,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
             @Override
             public void onItemClick(View v, int position) {
-                goalsActivity.ll.setVisibility(View.VISIBLE);
-                goalsActivity.bottomAppBar.getMenu().findItem(R.id.appBarTitle).setTitle("Goaldsfsdfsdfsdf " + goals.get(position));
+                editCategoryActivity.ll.setVisibility(View.VISIBLE);
+                editCategoryActivity.bottomAppBar.getMenu().findItem(R.id.appBarTitle).setTitle(goals.get(position).getName());
+                //editCategoryActivity.bottomText.setText(goals.get(position).getName());
+                Intent intent = new Intent("custom-msg");
+                String id = String.valueOf(goals.get(position).getId());
+                intent.putExtra("goalID", id);
+                LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+                Log.d("broad","I pushed broadcast");
              }
         });
 

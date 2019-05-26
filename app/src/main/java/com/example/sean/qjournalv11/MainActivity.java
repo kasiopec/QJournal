@@ -3,12 +3,8 @@ package com.example.sean.qjournalv11;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,9 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,28 +21,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ParentFragment.OnFragmentInteractionListener {
@@ -67,6 +42,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(com.example.sean.qjournalv11.R.layout.activity_main);
 
+
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        dbHelper.getWritableDatabase();
+
         if(!isMyServiceRunning(NotificationService.class)){
             hours = 2;
             Intent intentService = new Intent(getBaseContext(), NotificationService.class);
@@ -80,7 +59,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, History.class);
+                Intent intent = new Intent(MainActivity.this, NewGoalActivity.class);
                 startActivity(intent);
 
 
@@ -195,7 +174,7 @@ public class MainActivity extends AppCompatActivity
         }
         switch (item.getItemId()) {
             case com.example.sean.qjournalv11.R.id.action_5:
-                Intent i0 = new Intent(getBaseContext(), History.class);
+                Intent i0 = new Intent(getBaseContext(), NewGoalActivity.class);
                 startActivity(i0);
                 return true;
             case R.id.goals:
@@ -219,7 +198,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
 
         } else if (id == com.example.sean.qjournalv11.R.id.nav_activities) {
-            //link to charts
+            Intent i = new Intent(getBaseContext(), Show_History.class);
+            startActivity(i);
 
         } else if (id == com.example.sean.qjournalv11.R.id.nav_help){
             Intent i = new Intent(getBaseContext(), Help.class);

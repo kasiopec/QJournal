@@ -12,7 +12,7 @@
     tools:context=".Show_History"
 
 
-    tools:showIn="@layout/app_bar_history">
+    tools:showIn="@layout/app_bar_new_goal">
 
     <TextView
         android:id="@+id/textViewCategory"

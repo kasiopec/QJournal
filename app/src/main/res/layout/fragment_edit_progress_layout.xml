@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/newGoalLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:paddingBottom="8dp">
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutHours_dialogFragP"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:elevation="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/textInputLayoutMin_dialogFragP"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/goalTextHours_dialogFragP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Progress hours"
+            android:inputType="time"
+            tools:layout_editor_absoluteX="97dp"
+            tools:layout_editor_absoluteY="228dp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutMin_dialogFragP"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayoutHours_dialogFragP"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/goalTextMin_dialogFragP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Progress Minutes"
+            android:inputType="time"
+            tools:layout_editor_absoluteX="43dp"
+            tools:layout_editor_absoluteY="305dp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnYes_dialogFragP"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/round_corners_blue_background"
+        android:elevation="10dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="Save"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toStartOf="@+id/btnCloseDialog_dialogFragP"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutHours_dialogFragP" />
+
+    <Button
+        android:id="@+id/btnCloseDialog_dialogFragP"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round_corners_blue_background"
+        android:elevation="10dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="Cancel"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnYes_dialogFragP"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutMin_dialogFragP" />
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>

@@ -238,7 +238,8 @@ if(upid.equals("1")){upid="0";}
     public Integer getSactivityDate(String upid, String cdate) {
 
         int dayamount=0;
-             Cursor cursor1 = dbHelper.getReadableDatabase().rawQuery("select _date,_id,_starttime,_endtime,(strftime('%s',_endtime) - strftime('%s',_starttime))/60 AS diftime from Events WHERE _upid = ?", new String[] { upid });
+             Cursor cursor1 = dbHelper.getReadableDatabase()
+                     .rawQuery("select _date,_id,_starttime,_endtime,(strftime('%s',_endtime) - strftime('%s',_starttime))/60 AS diftime from Events WHERE _upid = ?", new String[] { upid });
         cursor1.moveToFirst();
         for (cursor1.moveToFirst(); !cursor1.isAfterLast(); cursor1.moveToNext()) {
 

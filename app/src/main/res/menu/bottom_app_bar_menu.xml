@@ -2,6 +2,13 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/appBarInsertProg"
+        android:icon="@drawable/ic_insert_black_24dp"
+        android:title="Insert Progress"
+        app:showAsAction="always"
+        android:orderInCategory="97"
+        />
+    <item
         android:id="@+id/appBarEditGoal"
         android:icon="@drawable/ic_menu_manage"
         android:title="Edit Category"
@@ -19,6 +26,7 @@
         android:id="@+id/appBarTitle"
         android:title=""
         app:showAsAction="always"
-        android:orderInCategory="100"/>
+        android:orderInCategory="100"
+        android:iconTint="@android:color/black"/>
 
 </menu>
