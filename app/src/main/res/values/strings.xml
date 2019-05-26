@@ -8,6 +8,15 @@
     <string name="btnWeekly">Weekly</string>
     <string name="btnMonthly">Monthly</string>
     <string name="newGoalTitle">New Goal</string>
+
+    <string name="btnCurrentWeek">This week</string>
+    <string name="btnNextWeek">Next week</string>
+    <string name="btnPrevWeek">Prev week</string>
+    <string name="btnCurrentMonth">This month</string>
+    <string name="btnPrevMonth">Prev month</string>
+    <string name="btnNextMonth">Next month</string>
+
+
     <string name="noGoals">Looks like your goal list is not set up yet. \n Press button below to start
     creating new goals. \n Later here will be shown progress towards your goals.</string>
     <string name="delCategory">Do you want to delete %1$s category? \nDeleting this category will also remove goals associated with it.</string>

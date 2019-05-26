@@ -5,7 +5,7 @@
     android:id="@+id/relativeLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Show_History">
+    tools:context=".ShowGraphs">
 
     <LinearLayout
         android:id="@+id/chart"
@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/textDates"
         tools:ignore="Orientation">
 
     </LinearLayout>
@@ -49,39 +49,62 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/prevBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/round_corners_blue_background"
+        android:foreground="?attr/selectableItemBackground"
+        android:elevation="10dp"
         android:text="Prev month"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintEnd_toStartOf="@+id/curBtn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerLayout" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/curBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/round_corners_blue_background"
+        android:foreground="?attr/selectableItemBackground"
+        android:elevation="10dp"
         android:text="This month"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintEnd_toStartOf="@+id/nextBtn"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintStart_toEndOf="@+id/prevBtn"
         app:layout_constraintTop_toBottomOf="@+id/spinnerLayout" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/nextBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/round_corners_blue_background"
+        android:foreground="?attr/selectableItemBackground"
+        android:elevation="10dp"
         android:text="Next month"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button3"
+        app:layout_constraintStart_toEndOf="@+id/curBtn"
         app:layout_constraintTop_toBottomOf="@+id/spinnerLayout" />
+
+    <TextView
+        android:id="@+id/textDates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/curBtn" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -23,7 +25,10 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -47,6 +52,10 @@ public class GraphFragment extends Fragment {
 
     private BarChart chart;
     private boolean spinnerInit = false;
+    int currentWeek, currentMonth, newWeek, newMonth;
+    private Calendar c;
+    private TextView dates;
+
 
     // TODO: Rename and change types of parameters
     private String tabName;
@@ -82,6 +91,15 @@ public class GraphFragment extends Fragment {
             tabName = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        Date currentDate = new Date();
+        c = Calendar.getInstance();
+        c.setFirstDayOfWeek(Calendar.MONDAY);
+        c.setTime(currentDate);
+        currentWeek = c.get(Calendar.WEEK_OF_YEAR);
+        currentMonth = c.get(Calendar.MONTH);
+        newWeek = currentWeek;
+        newMonth = currentMonth;
     }
 
     @Override
@@ -91,14 +109,28 @@ public class GraphFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_graph, container, false);
         // Inflate the layout for this fragment
 
-
-
         db = new DatabaseHelper(getContext());
         goals = db.getAllGoals();
 
         final ArrayList<String> categories = db.getAllCategories();
         categories.add("All");
 
+        Button curButton = (Button) view.findViewById(R.id.curBtn);
+        Button prevButton = (Button) view.findViewById(R.id.prevBtn);
+        Button nextButton = (Button) view.findViewById(R.id.nextBtn);
+        dates = (TextView) view.findViewById(R.id.textDates);
+
+        if(tabName.equals("Weekly")){
+            curButton.setText(R.string.btnCurrentWeek);
+            prevButton.setText(R.string.btnPrevWeek);
+            nextButton.setText(R.string.btnNextWeek);
+            setWeekText(currentWeek);
+        }else{
+            curButton.setText(R.string.btnCurrentMonth);
+            prevButton.setText(R.string.btnPrevMonth);
+            nextButton.setText(R.string.btnNextMonth);
+            setMonthText(currentMonth);
+        }
 
         ArrayAdapter<String> spinnerAdapter =
                 new ArrayAdapter<> (getContext(), R.layout.support_simple_spinner_dropdown_item, categories);
@@ -117,21 +149,20 @@ public class GraphFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //load goals with categoryselected
-                Log.d("bars", "i ma triggered");
                 if(!spinnerInit){
                     spinnerInit = true;
                 }else{
                     String category = catSpinner.getSelectedItem().toString();
+                    ArrayList<Goal> filtredGoals = new ArrayList<>();
                     if(category.equals("All")){
-                        goals = db.getAllGoals();
                         loadGoals(goals);
-                        chart.invalidate();
                     }else{
-                        Log.d("bars", "size of goals before load: " + goals.size());
-                        goals =  db.getAllCategoryGoals(category, tabName);
-                        Log.d("bars", "size of goals after load: " + goals.size());
-                        loadGoals(goals);
-                        chart.invalidate();
+                        for (int i = 0; i < goals.size(); i++) {
+                            if(goals.get(i).getCategory().equals(category)){
+                                filtredGoals.add(goals.get(i));
+                            }
+                        }
+                        loadGoals(filtredGoals);
 
                     }
                 }
@@ -145,15 +176,109 @@ public class GraphFragment extends Fragment {
 
             }
         });
-
         loadGoals(goals);
 
+        curButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String category = catSpinner.getSelectedItem().toString();
+                if(category.equals("All")){
+                    goals = db.getAllGoals();
+                }else{
+                    goals =  db.getAllCategoryGoals(category, tabName);
+                }
+
+                loadGoals(goals);
+                if(tabName.equals("Weekly")){
+                    newWeek = currentWeek;
+                    setWeekText(newWeek);
+                }else{
+                    newMonth= currentMonth;
+                    setMonthText(newMonth);
+
+                }
 
 
+            }
+        });
+
+        prevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String category = catSpinner.getSelectedItem().toString();
+                if(tabName.equals("Weekly")){
+                    newWeek = newWeek - 1;
+                    setWeekText(newWeek);
+                    if(newWeek == currentWeek && category.equals("All")){
+                        goals = db.getAllGoals();
+                    }else{
+                        goals = db.getWeekGoals(newWeek, category);
+                    }
+                }else{
+                    newMonth = newMonth -1;
+                    setMonthText(newMonth);
+                    if(newMonth == currentMonth && category.equals("All")){
+                        goals = db.getAllGoals();
+                    }else{
+                        goals = db.getMonthGoals(newMonth, category);
+                    }
+                }
+
+                loadGoals(goals);
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String category = catSpinner.getSelectedItem().toString();
+                if(tabName.equals("Weekly")){
+                    newWeek = newWeek + 1;
+                    setWeekText(newWeek);
+                    if(newWeek == currentWeek && category.equals("All")){
+                        goals = db.getAllGoals();
+                    }else{
+                        goals = db.getWeekGoals(newWeek, category);
+                    }
+                }else{
+                    newMonth = newMonth + 1;
+                    setMonthText(newMonth);
+                    if(newMonth == currentMonth && category.equals("All")){
+                        goals = db.getAllGoals();
+                    }else{
+                        goals = db.getMonthGoals(newMonth, category);
+                    }
+                }
+
+                loadGoals(goals);
+            }
+        });
 
 
         return view;
+
+
+
+
     }
+    private void setMonthText(int month){
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+        c.set(Calendar.MONTH, month);
+        dates.setText(sdf.format(c.getTime()));
+
+    }
+
+    private void setWeekText(int week){
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        c.set(Calendar.WEEK_OF_YEAR, week);
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        String firstDay = sdf.format(c.getTime());
+        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        String lastDay = sdf.format(c.getTime());
+        dates.setText("Week: " + firstDay + " - " + lastDay);
+
+    }
+
 
     private void loadGoals(ArrayList<Goal> goals) {
         int i = 0;
@@ -162,8 +287,17 @@ public class GraphFragment extends Fragment {
         BarData data;
         BarDataSet dataset;
         for (Goal goal: goals) {
-
-            if(tabName.equals("Weekly") && goal.getTimeFrame().equals("Weekly")){
+            if(goal.getTimeFrame() == null && tabName.equals("Weekly")){
+                barEntries.add(new BarEntry(goal.getCurrentTime(), i));
+                labels.add(goal.getName());
+                i++;
+                LEGEND_LABEL = "week";
+            }else if (goal.getTimeFrame() == null && tabName.equals("Monthly")){
+                barEntries.add(new BarEntry(goal.getCurrentTime(), i));
+                labels.add(goal.getName());
+                i++;
+                LEGEND_LABEL = "month";
+            }else if(tabName.equals("Weekly") && goal.getTimeFrame().equals("Weekly")){
                 barEntries.add(new BarEntry(goal.getCurrentTime(), i));
                 labels.add(goal.getName());
                 i++;

@@ -34,7 +34,7 @@
             android:label="@string/newGoalTitle"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Show_History"
+            android:name=".ShowGraphs"
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity

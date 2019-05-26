@@ -27,7 +27,7 @@ public class ApplicationActivity extends Application {
         Log.d("myUPD", "FDAYWEEK "+c.getFirstDayOfWeek());
         c.setFirstDayOfWeek(Calendar.MONDAY);
         c.setTime(currentDate);
-        int currentWeek = c.get(Calendar.DAY_OF_WEEK);
+        int currentWeek = c.get(Calendar.WEEK_OF_YEAR);
         int currentMonth = c.get(Calendar.MONTH);
         if(!prefs.contains(UPDATE_WEEK) && !prefs.contains(UPDATE_MONTH)){
             Log.d("myUPD", "Prefs does not exist. Creating prefs.");
@@ -53,7 +53,7 @@ public class ApplicationActivity extends Application {
             timeFrame = "Weekly";
             Log.d("myUPD", "Weeks are different, beginning database update");
 
-            db.dataReset(timeFrame, currentWeek, currentMonth);
+            db.dataReset(timeFrame, currentWeek);
             editor = prefs.edit();
             editor.putInt(UPDATE_WEEK, currentWeek);
             editor.apply();
@@ -61,7 +61,7 @@ public class ApplicationActivity extends Application {
         }else if (currentMonth != updateMonth && updateMonth != -1){
             timeFrame = "Monthly";
             Log.d("myUPD", "Months are different, updating database");
-            db.dataReset(timeFrame, currentWeek, currentMonth);
+            db.dataReset(timeFrame, currentMonth);
             editor = prefs.edit();
             editor.putInt(UPDATE_WEEK, currentWeek);
             editor.apply();

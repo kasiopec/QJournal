@@ -29,11 +29,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ParentFragment.OnFragmentInteractionListener {
     private EventOperations eventDBoperation;
-    private ListView m_listview;
-    private GoalsAdapter goalsAdapter;
-
-    private SimpleCursorAdapter dataAdapter;
-
 
     private int hours;
 
@@ -198,7 +193,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
 
         } else if (id == com.example.sean.qjournalv11.R.id.nav_activities) {
-            Intent i = new Intent(getBaseContext(), Show_History.class);
+            Intent i = new Intent(getBaseContext(), ShowGraphs.class);
             startActivity(i);
 
         } else if (id == com.example.sean.qjournalv11.R.id.nav_help){
