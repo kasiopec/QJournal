@@ -4,14 +4,20 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
+        android:name=".ApplicationActivity"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_diary_24dp"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".ApplicationActivity">
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings">
+        </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/Home_activity_name"
@@ -25,9 +31,13 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".NotificationPublisher" />
-
-        <service android:name=".NotificationService" />
+        <receiver android:name=".DeviceBootReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".AlarmReceiver" />
 
         <activity
             android:name=".NewGoalActivity"
@@ -35,8 +45,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ShowGraphs"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EditCategoryActivity"
             android:label="@string/categoryActivityTitle" />

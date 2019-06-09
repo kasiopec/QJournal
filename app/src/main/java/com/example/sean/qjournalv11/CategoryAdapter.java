@@ -53,7 +53,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener{
 
-        TextView goalName;
+        TextView goalName, detailsCaption, goalDetails;
         ProgressBar goalProgressBar;
         TextView goalPercent;
 
@@ -65,6 +65,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             goalName = (TextView) itemView.findViewById(R.id.textGoalName_editCat);
             goalProgressBar = (ProgressBar) itemView.findViewById(R.id.progressBarGoal_editCat);
             goalPercent = (TextView) itemView.findViewById(R.id.textGoalProg_editCat);
+            goalDetails = (TextView) itemView.findViewById(R.id.textGoalDetails_editCat);
+            detailsCaption = (TextView) itemView.findViewById(R.id.textDetailsCap_editCat);
 
             itemView.setOnLongClickListener(this);
             itemView.setOnClickListener(this);
@@ -99,8 +101,30 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int i) {
         final LayoutInflater inflater  = LayoutInflater.from(mContext);
-        holder.goalName.setText(goals.get(i).getName());
+
         int goalPercentage = Math.round((float) goals.get(i).getCurrentTime() / goals.get(i).getGoalTime() * 100);
+
+        int goalHours = goals.get(i).getGoalTime() / 60;
+        int curHours = goals.get(i).getCurrentTime() / 60;
+
+        int goalMin = goals.get(i).getGoalTime() % 60;
+        int curMin = goals.get(i).getCurrentTime() % 60;
+
+        String detailsText = mContext.getResources().getString(R.string.textViewDetails,
+                String.valueOf(curHours), String.valueOf(curMin),
+                String.valueOf(goalHours), String.valueOf(goalMin));
+
+        String detailsTextZero = mContext.getResources().getString(R.string.textViewDetailsZero,
+                String.valueOf(0), String.valueOf(goalHours), String.valueOf(goalMin));
+
+        holder.goalName.setText(mContext.getResources().getString(R.string.textViewGoalName, goals.get(i).getName()));
+        holder.detailsCaption.setText(R.string.textViewCap);
+
+        if(goals.get(i).getCurrentTime() == 0){
+            holder.goalDetails.setText(detailsTextZero);
+        }else{
+            holder.goalDetails.setText(detailsText);
+        }
 
         holder.goalProgressBar.setProgress(goalPercentage);
         holder.goalPercent.setText(goalPercentage+"%");

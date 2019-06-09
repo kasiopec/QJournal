@@ -52,9 +52,10 @@ public class GraphFragment extends Fragment {
 
     private BarChart chart;
     private boolean spinnerInit = false;
-    int currentWeek, currentMonth, newWeek, newMonth;
+    int currentWeek, currentMonth, newWeek, newMonth, currentYear, newYear;
     private Calendar c;
     private TextView dates;
+    private Date currentDate;
 
 
     // TODO: Rename and change types of parameters
@@ -92,14 +93,16 @@ public class GraphFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        Date currentDate = new Date();
+        currentDate = new Date();
         c = Calendar.getInstance();
         c.setFirstDayOfWeek(Calendar.MONDAY);
         c.setTime(currentDate);
         currentWeek = c.get(Calendar.WEEK_OF_YEAR);
         currentMonth = c.get(Calendar.MONTH);
+        currentYear = c.get(Calendar.YEAR);
         newWeek = currentWeek;
         newMonth = currentMonth;
+        newYear = currentYear;
     }
 
     @Override
@@ -124,12 +127,12 @@ public class GraphFragment extends Fragment {
             curButton.setText(R.string.btnCurrentWeek);
             prevButton.setText(R.string.btnPrevWeek);
             nextButton.setText(R.string.btnNextWeek);
-            setWeekText(currentWeek);
+            setCurWeek();
         }else{
             curButton.setText(R.string.btnCurrentMonth);
             prevButton.setText(R.string.btnPrevMonth);
             nextButton.setText(R.string.btnNextMonth);
-            setMonthText(currentMonth);
+            setCurMonth();
         }
 
         ArrayAdapter<String> spinnerAdapter =
@@ -191,12 +194,13 @@ public class GraphFragment extends Fragment {
                 loadGoals(goals);
                 if(tabName.equals("Weekly")){
                     newWeek = currentWeek;
-                    setWeekText(newWeek);
+                    setCurWeek();
                 }else{
                     newMonth= currentMonth;
-                    setMonthText(newMonth);
+                    setCurMonth();
 
                 }
+                newYear = currentYear;
 
 
             }
@@ -207,20 +211,19 @@ public class GraphFragment extends Fragment {
             public void onClick(View v) {
                 String category = catSpinner.getSelectedItem().toString();
                 if(tabName.equals("Weekly")){
-                    newWeek = newWeek - 1;
-                    setWeekText(newWeek);
-                    if(newWeek == currentWeek && category.equals("All")){
+                    newWeek = setNegWeek();
+                    if(newWeek == currentWeek && category.equals("All") && newYear==currentYear){
                         goals = db.getAllGoals();
                     }else{
-                        goals = db.getWeekGoals(newWeek, category);
+                        goals = db.getWeekGoals(newWeek, category, newYear);
                     }
                 }else{
-                    newMonth = newMonth -1;
-                    setMonthText(newMonth);
-                    if(newMonth == currentMonth && category.equals("All")){
+                    newMonth = setNegMonth();
+                    if(newMonth == currentMonth && category.equals("All") && newYear == currentYear){
                         goals = db.getAllGoals();
                     }else{
-                        goals = db.getMonthGoals(newMonth, category);
+                        goals = db.getMonthGoals(newMonth, category, newYear);
+                        Log.d("cal", "Month Nr: "+String.valueOf(newMonth));
                     }
                 }
 
@@ -233,20 +236,18 @@ public class GraphFragment extends Fragment {
             public void onClick(View v) {
                 String category = catSpinner.getSelectedItem().toString();
                 if(tabName.equals("Weekly")){
-                    newWeek = newWeek + 1;
-                    setWeekText(newWeek);
-                    if(newWeek == currentWeek && category.equals("All")){
+                    newWeek = setPosWeek();
+                    if(newWeek == currentWeek && category.equals("All") && newYear == currentYear){
                         goals = db.getAllGoals();
                     }else{
-                        goals = db.getWeekGoals(newWeek, category);
+                        goals = db.getWeekGoals(newWeek, category, newYear);
                     }
                 }else{
-                    newMonth = newMonth + 1;
-                    setMonthText(newMonth);
-                    if(newMonth == currentMonth && category.equals("All")){
+                    newMonth = setPosMonth();
+                    if(newMonth == currentMonth && category.equals("All")&& newYear == currentYear){
                         goals = db.getAllGoals();
                     }else{
-                        goals = db.getMonthGoals(newMonth, category);
+                        goals = db.getMonthGoals(newMonth, category, newYear);
                     }
                 }
 
@@ -261,16 +262,57 @@ public class GraphFragment extends Fragment {
 
 
     }
-    private void setMonthText(int month){
+    private void setCurMonth(){
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
-        c.set(Calendar.MONTH, month);
+        c.setTime(currentDate);
         dates.setText(sdf.format(c.getTime()));
 
     }
 
-    private void setWeekText(int week){
+    private int setPosMonth(){
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+        c.add(Calendar.MONTH, 1);
+        dates.setText(sdf.format(c.getTime()));
+        newYear = c.get(Calendar.YEAR);
+        return c.get(Calendar.MONTH);
+    }
+
+    private int setNegMonth(){
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+        c.add(Calendar.MONTH, -1);
+        dates.setText(sdf.format(c.getTime()));
+        newYear = c.get(Calendar.YEAR);
+        return c.get(Calendar.MONTH);
+    }
+
+    private int setPosWeek(){
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        c.set(Calendar.WEEK_OF_YEAR, week);
+        c.add(Calendar.WEEK_OF_YEAR, 1);
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        String firstDay = sdf.format(c.getTime());
+        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        String lastDay = sdf.format(c.getTime());
+        dates.setText("Week: " + firstDay + " - " + lastDay);
+        newYear = c.get(Calendar.YEAR);
+        return c.get(Calendar.WEEK_OF_YEAR);
+    }
+
+    private int setNegWeek(){
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        c.add(Calendar.WEEK_OF_YEAR, -1);
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        String firstDay = sdf.format(c.getTime());
+        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        String lastDay = sdf.format(c.getTime());
+        dates.setText("Week: " + firstDay + " - " + lastDay);
+        newYear = c.get(Calendar.YEAR);
+        return c.get(Calendar.WEEK_OF_YEAR);
+    }
+
+    private void setCurWeek(){
+        Log.d("dates", "W: "+String.valueOf(currentWeek));
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        c.setTime(currentDate);
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         String firstDay = sdf.format(c.getTime());
         c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
@@ -314,6 +356,7 @@ public class GraphFragment extends Fragment {
         Log.d("bars", "bar entries: " + barEntries.size());
         dataset = new BarDataSet(barEntries, "Minutes spent this "+LEGEND_LABEL);
         dataset.setColor(getResources().getColor(R.color.colorPrimary));
+        dataset.setHighLightAlpha(0);
 
         data = new BarData(labels, dataset);
         chart.setData(data);

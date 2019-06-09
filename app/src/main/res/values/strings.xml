@@ -16,6 +16,11 @@
     <string name="btnPrevMonth">Prev month</string>
     <string name="btnNextMonth">Next month</string>
 
+    <string name="textViewCap">Details: </string>
+    <string name="textViewGoalName">%1$s</string>
+    <string name="textViewDetails">Goal time: %1$sh %2$s min / %3$sh %4$s min </string>
+    <string name="textViewDetailsZero">Goal time: %1$s / %2$sh %3$s min </string>
+
 
     <string name="noGoals">Looks like your goal list is not set up yet. \n Press button below to start
     creating new goals. \n Later here will be shown progress towards your goals.</string>

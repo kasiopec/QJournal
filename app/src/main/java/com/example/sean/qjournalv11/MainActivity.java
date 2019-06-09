@@ -1,6 +1,7 @@
 package com.example.sean.qjournalv11;
 
 import android.app.ActivityManager;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +11,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
@@ -25,12 +28,17 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import static com.example.sean.qjournalv11.ApplicationActivity.NOTIFICATION_CH_ID1;
+import static com.example.sean.qjournalv11.ApplicationActivity.NOTIFICATION_CH_ID2;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ParentFragment.OnFragmentInteractionListener {
-    private EventOperations eventDBoperation;
 
+    private EventOperations eventDBoperation;
     private int hours;
+    private NotificationManagerCompat nt_mangerCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +49,7 @@ public class MainActivity extends AppCompatActivity
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         dbHelper.getWritableDatabase();
 
-        if(!isMyServiceRunning(NotificationService.class)){
-            hours = 2;
-            Intent intentService = new Intent(getBaseContext(), NotificationService.class);
-            intentService.putExtra("hours",hours);
-            startService(intentService);
-        }
+        nt_mangerCompat = NotificationManagerCompat.from(this);
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -157,29 +160,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == com.example.sean.qjournalv11.R.id.action_settings) {
-            Intent i = new Intent(getBaseContext(), Help.class);
-            startActivity(i);
-            return true;
-        }
         switch (item.getItemId()) {
-            case com.example.sean.qjournalv11.R.id.action_5:
-                Intent i0 = new Intent(getBaseContext(), NewGoalActivity.class);
-                startActivity(i0);
-                return true;
-            case R.id.goals:
-                return true;
-            case R.id.activities:
+            case R.id.action_settings:
+                Intent i = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -200,6 +188,25 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(getBaseContext(), Help.class);
             startActivity(i);
         } else if (id == R.id.nav_share){
+
+            Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CH_ID2)
+                    .setSmallIcon(R.drawable.ic_diary_black_24dp)
+                    .setContentTitle("Goals updated")
+                    .setContentText("Monthly goals have been reset.")
+                    .setPriority(NotificationCompat.PRIORITY_LOW)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .build();
+
+            Notification notification2 = new NotificationCompat.Builder(this, NOTIFICATION_CH_ID1)
+                    .setSmallIcon(R.drawable.ic_diary_black_24dp)
+                    .setContentTitle("Goals updated")
+                    .setContentText("Weekly goals have been reset.")
+                    .setPriority(NotificationCompat.PRIORITY_LOW)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .build();
+
+            nt_mangerCompat.notify(1, notification);
+            nt_mangerCompat.notify(2, notification2);
             //implement sharing function
         }else if (id == com.example.sean.qjournalv11.R.id.nav_exit){
             Intent homeIntent = new Intent(Intent.ACTION_MAIN);

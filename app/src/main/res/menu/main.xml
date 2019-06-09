@@ -4,15 +4,6 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="Help"
-        app:showAsAction="never" />
-    <item android:id="@+id/action_5"
-        android:title="History"
-        app:showAsAction="never" />
-    <item android:id="@+id/goals"
-        android:title="Goals"
-        app:showAsAction="never" />
-    <item android:id="@+id/activities"
-        android:title="Activities"
+        android:title="Settings"
         app:showAsAction="never" />
 </menu>

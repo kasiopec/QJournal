@@ -7,5 +7,7 @@
     <color name="colorProgBarPercentage">#00CC00</color>
     <color name="colorMainDarkYellow">#B37100</color>
     <color name="colorMainLightYellow">#FFB026</color>
+    <color name="colorDimgray">#696969</color>
+
 
 </resources>

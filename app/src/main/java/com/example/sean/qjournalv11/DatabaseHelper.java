@@ -35,6 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COMPLETED_COL_CAT = "Category";
     private static final String COMPLETED_COL_WEEK = "Week";
     private static final String COMPLETED_COL_MONTH = "Month";
+    private static final String COMPLETED_COL_YEAR = "Year";
     private static final String COMPLETED_PROG = "Progress";
 
     private static final String CREATE_TABLE_GOALS = "create table "+TABLE_GOALS +
@@ -56,6 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COMPLETED_COL_CAT + " TEXT not null" + ", "
             + COMPLETED_COL_WEEK + " TEXT" + ", "
             + COMPLETED_COL_MONTH + " TEXT" + ", "
+            + COMPLETED_COL_YEAR + " TEXT" + ", "
             + COMPLETED_PROG + " TEXT not null );";
 
 
@@ -110,7 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void dataReset(String timeFrame, int week_month){
+    public void dataReset(String timeFrame, int week_month, int year){
         SQLiteDatabase db = this.getWritableDatabase();
         String selectQuery = null;
         if(timeFrame.equals("Weekly")){
@@ -120,11 +122,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COMPLETED_COL_CAT + "," +
                     COMPLETED_COL_WEEK + "," +
                     COMPLETED_COL_MONTH + "," +
+                    COMPLETED_COL_YEAR + "," +
                     COMPLETED_PROG + ") SELECT " +
                     GOAL_COL_NAME + "," +
                     GOAL_COL_CAT + "," +
                     "'" + week_month+ "'," +
                    "'null'," +
+                   "'" + year+ "'," +
                     GOAL_COL_CURTIME + " FROM " +
                     TABLE_GOALS + " WHERE " + GOAL_COL_TIMEFRAME + " = '" + timeFrame + "'";
 
@@ -135,11 +139,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COMPLETED_COL_CAT + "," +
                     COMPLETED_COL_WEEK + "," +
                     COMPLETED_COL_MONTH + "," +
+                    COMPLETED_COL_YEAR + "," +
                     COMPLETED_PROG + ") SELECT " +
                     GOAL_COL_NAME + "," +
                     GOAL_COL_CAT + "," +
                     "'null'," +
                     "'" + week_month + "'," +
+                    "'" + year + "'," +
                     GOAL_COL_CURTIME + " FROM " +
                     TABLE_GOALS + " WHERE " + GOAL_COL_TIMEFRAME + " = '" + timeFrame + "'";
         }
@@ -285,14 +291,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return goals;
     }
 
-    public ArrayList<Goal> getWeekGoals(int week_nr, String category){
+    public ArrayList<Goal> getWeekGoals(int week_nr, String category, int year){
         ArrayList<Goal> goals = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor;
 
-        String selectQuery = "SELECT * FROM " + TABLE_COMPLETED_GOALS + " WHERE " + COMPLETED_COL_CAT +
-                " = '" + category + "' AND " + COMPLETED_COL_WEEK + " = '" + week_nr + "'";
-        String selectQuery2 = "SELECT * FROM " + TABLE_COMPLETED_GOALS + " WHERE " + COMPLETED_COL_WEEK + " = '" + week_nr + "'";
+        String selectQuery = "SELECT * FROM "
+                + TABLE_COMPLETED_GOALS + " WHERE "
+                + COMPLETED_COL_CAT + " = '" + category + "' AND "
+                + COMPLETED_COL_WEEK + " = '" + week_nr + "' AND "
+                + COMPLETED_COL_YEAR + " = '" + year + "'";
+
+        String selectQuery2 = "SELECT * FROM "
+                + TABLE_COMPLETED_GOALS + " WHERE "
+                + COMPLETED_COL_WEEK + " = '" + week_nr + "' AND "
+                + COMPLETED_COL_YEAR + " = '" + year + "'";
 
         if(category.equals("All")){
             cursor = db.rawQuery(selectQuery2, null);
@@ -317,14 +330,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return goals;
     }
 
-    public ArrayList<Goal> getMonthGoals(int month_nr, String category){
+    public ArrayList<Goal> getMonthGoals(int month_nr, String category, int year){
         ArrayList<Goal> goals = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor;
 
-        String selectQuery = "SELECT * FROM " + TABLE_COMPLETED_GOALS + " WHERE " + COMPLETED_COL_CAT +
-                " = '" + category + "' AND " + COMPLETED_COL_MONTH + " = '" + month_nr + "'";
-        String selectQuery2 = "SELECT * FROM " + TABLE_COMPLETED_GOALS + " WHERE " + COMPLETED_COL_MONTH + " = '" + month_nr + "'";
+        String selectQuery = "SELECT * FROM "
+                + TABLE_COMPLETED_GOALS + " WHERE "
+                + COMPLETED_COL_CAT + " = '" + category + "' AND "
+                + COMPLETED_COL_MONTH + " = '" + month_nr + "' AND "
+                + COMPLETED_COL_YEAR + " = '" + year + "'";
+
+        String selectQuery2 = "SELECT * FROM "
+                + TABLE_COMPLETED_GOALS + " WHERE "
+                + COMPLETED_COL_MONTH + " = '" + month_nr + "' AND "
+                + COMPLETED_COL_YEAR + " = '" + year + "'";
 
         if(category.equals("All")){
             cursor = db.rawQuery(selectQuery2, null);
