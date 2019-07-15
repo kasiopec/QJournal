@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -16,6 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "Qjournal";
     private static final int DB_VERSION = 1;
 
+    //Active goals table variables
     private static final String TABLE_GOALS = "OngoingGoals_table";
     private static final String GOAL_COL_ID = "ID";
     private static final String GOAL_COL_NAME = "Name";
@@ -25,10 +26,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String GOAL_COL_GOALTIME = "GoalTime";
     private static final String GOAL_COL_CURTIME = "CurrentTime";
 
+    //category table variables
     private static final String TABLE_CATEGORIES = "Categories_table";
     private static final String CATEGORY_COL_ID = "ID";
     private static final String CATEGORY_COL_NAME = "Name";
 
+    //History table variables
     private static final String TABLE_COMPLETED_GOALS = "CompletedGoals_table";
     private static final String COMPLETED_COL_ID = "ID";
     private static final String COMPLETED_COL_NAME = "Name";
@@ -72,6 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_TABLE_GOALS);
             db.execSQL(CREATE_TABLE_CATEGORIES);
 
+            //Creating default goal categories which user can use
             db.execSQL("INSERT INTO " + TABLE_CATEGORIES + " (Name)" + " VALUES ('Sport')");
             db.execSQL("INSERT INTO " + TABLE_CATEGORIES + " (Name)" + " VALUES ('School')");
             db.execSQL("INSERT INTO " + TABLE_CATEGORIES + " (Name)" + " VALUES ('Gym')");
@@ -92,6 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //adds goal to the database
     public void addGoal(String name, String category, String timeFrame, int goalTime, String startDate){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -112,6 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //Method which does weekly and monthly updates
     public void dataReset(String timeFrame, int week_month, int year){
         SQLiteDatabase db = this.getWritableDatabase();
         String selectQuery = null;
@@ -162,6 +168,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+
+    //Method which updates goal progress
     public void updateGoalProgress(String goal_id, int progTime){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -172,6 +180,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Method which allows user modify goal
     public void updateGoal(Goal g ){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -185,6 +194,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+
+    //Method which calls all the active goals
     public ArrayList<Goal> getAllGoals(){
 
         ArrayList<Goal> goals = new ArrayList<>();
@@ -214,6 +225,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //Method which allows to add new categories
     public void addCategory (String name){
 
         SQLiteDatabase db =this.getWritableDatabase();
@@ -225,6 +237,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Method which gets all the categories from the database
     public ArrayList<String> getAllCategories(){
         ArrayList<String> categories = new ArrayList<>();
 
@@ -246,6 +259,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return categories;
     }
 
+    //remove single category
     public void removeCategory(String name){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CATEGORIES, CATEGORY_COL_NAME + " = ?", new String[]{name});
@@ -260,12 +274,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Remove single goal
     public void removeGoal(String id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_GOALS, GOAL_COL_ID + " = ?", new String[]{id});
         db.close();
     }
 
+    //Get all goals with the passed category name
     public ArrayList<Goal> getAllCategoryGoals(String category, String timeFrame){
         ArrayList<Goal> goals = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
@@ -291,6 +307,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return goals;
     }
 
+    //Get all weekly goals based on category
     public ArrayList<Goal> getWeekGoals(int week_nr, String category, int year){
         ArrayList<Goal> goals = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
@@ -330,6 +347,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return goals;
     }
 
+    //get all monthly goals based on category
     public ArrayList<Goal> getMonthGoals(int month_nr, String category, int year){
         ArrayList<Goal> goals = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();

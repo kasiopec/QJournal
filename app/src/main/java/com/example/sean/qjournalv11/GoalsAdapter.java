@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,10 +25,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
+
+
+/**
+ Adapter class for recycleView in the MainActivity
+ **/
 
 public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.GoalsViewHolder> {
 
@@ -74,7 +74,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.GoalsViewHol
     public GoalsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
 
             LayoutInflater inflater = LayoutInflater.from(mContext);
-            View v =inflater.inflate(R.layout.rw_item_main, null);
+            View v =inflater.inflate(R.layout.rw_item_main, parent, false);
 
 
         return new GoalsViewHolder(v);
@@ -100,11 +100,6 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.GoalsViewHol
                 TextView textGoal = goalsView.findViewById(R.id.textGoalName);
                 TextView textGoalProg = goalsView.findViewById(R.id.textGoalProg);
                 int goalPercentage = Math.round((float) g.get(i).getCurrentTime() / g.get(i).getGoalTime() * 100);
-                Log.d("goal_info", g.get(i).getName());
-                Log.d("goal_info", "Current time: " + String.valueOf(g.get(i).getCurrentTime()));
-                Log.d("goal_info", "Goal time: " + String.valueOf(g.get(i).getGoalTime()));
-                Log.d("goal_info", "Goal percentage: " + String.valueOf(goalPercentage));
-
                 textGoalProg.setText(goalPercentage + "%");
                 textGoal.setText(g.get(i).getName());
                 progressBar.setProgress(goalPercentage);

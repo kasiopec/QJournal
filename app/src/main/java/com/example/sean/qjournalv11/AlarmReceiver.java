@@ -26,13 +26,17 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         //creating intent for the activity to open on notification click
         Intent notificationIntent = new Intent(context, MainActivity.class);
+
+        //creating notification manager Compat to call the notification
         nt_mangerCompat = NotificationManagerCompat.from(context);
 
+        //flags for notification intent
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent contentIntent = PendingIntent.getActivity(context,
                 0, notificationIntent, 0);
 
+        //check for Android version and apply channels if Oreo and higher
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel ch_daily = new NotificationChannel(
                     NOTIFICATION_CH_ID,
@@ -45,7 +49,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             nm.createNotificationChannel(ch_daily);
         }
 
-
+        //Notification setup
         Notification notification = new NotificationCompat.Builder(context, NOTIFICATION_CH_ID)
                 .setSmallIcon(R.drawable.ic_diary_black_24dp)
                 .setContentTitle("Daily update")
@@ -56,13 +60,13 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setAutoCancel(true)
                 .build();
 
+        //Push notification
         nt_mangerCompat.notify(1, notification);
 
+
+        //Restart timer for the next notification
         ApplicationActivity appActivity = new ApplicationActivity();
         appActivity.startNotificationTimer(context);
-
-        Log.d("alarma", "called the alarm from alarmReceiver");
-
 
     }
 }

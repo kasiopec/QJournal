@@ -23,6 +23,8 @@
             android:id="@+id/tabLayoutMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabMaxWidth="0dp"
             app:tabIndicatorColor="@color/colorMainLightYellow">
 
 

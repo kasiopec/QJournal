@@ -5,6 +5,7 @@
     android:id="@+id/relativeLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     tools:context=".ShowGraphs">
 
     <android.support.design.widget.AppBarLayout
@@ -27,6 +28,8 @@
             android:id="@+id/tabLayoutGraph"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabMaxWidth="0dp"
             app:tabIndicatorColor="@color/colorMainLightYellow">
 
 

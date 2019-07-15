@@ -21,7 +21,6 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/Home_activity_name"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
@@ -45,11 +44,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ShowGraphs"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/activityGraphTitle"/>
         <activity
             android:name=".EditCategoryActivity"
             android:label="@string/categoryActivityTitle" />
-        <activity android:name=".Help" />
+        <activity
+            android:name=".Help"
+            android:label="@string/activityHelpTitle"/>
     </application>
 
 </manifest>

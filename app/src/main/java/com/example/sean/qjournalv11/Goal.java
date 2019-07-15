@@ -4,6 +4,11 @@ import android.app.Person;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ Goal class that represents goals in the app
+ **/
+
+
 public class Goal implements Parcelable {
 
     private String name;

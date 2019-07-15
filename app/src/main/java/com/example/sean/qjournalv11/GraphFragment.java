@@ -265,14 +265,18 @@ public class GraphFragment extends Fragment {
     private void setCurMonth(){
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
         c.setTime(currentDate);
-        dates.setText(sdf.format(c.getTime()));
+        String month = sdf.format(c.getTime());
+        dates.setText(getString(R.string.textViewMonth, month));
+
 
     }
 
     private int setPosMonth(){
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
         c.add(Calendar.MONTH, 1);
-        dates.setText(sdf.format(c.getTime()));
+        String month = sdf.format(c.getTime());
+        dates.setText(getString(R.string.textViewMonth, month));
+        //dates.setText(sdf.format(c.getTime()));
         newYear = c.get(Calendar.YEAR);
         return c.get(Calendar.MONTH);
     }
@@ -280,7 +284,8 @@ public class GraphFragment extends Fragment {
     private int setNegMonth(){
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
         c.add(Calendar.MONTH, -1);
-        dates.setText(sdf.format(c.getTime()));
+        String month = sdf.format(c.getTime());
+        dates.setText(getString(R.string.textViewMonth, month));
         newYear = c.get(Calendar.YEAR);
         return c.get(Calendar.MONTH);
     }
@@ -292,7 +297,8 @@ public class GraphFragment extends Fragment {
         String firstDay = sdf.format(c.getTime());
         c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         String lastDay = sdf.format(c.getTime());
-        dates.setText("Week: " + firstDay + " - " + lastDay);
+        dates.setText(getString(R.string.textViewWeek, firstDay, lastDay));
+        //dates.setText("Week: " + firstDay + " - " + lastDay);
         newYear = c.get(Calendar.YEAR);
         return c.get(Calendar.WEEK_OF_YEAR);
     }
@@ -304,7 +310,8 @@ public class GraphFragment extends Fragment {
         String firstDay = sdf.format(c.getTime());
         c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         String lastDay = sdf.format(c.getTime());
-        dates.setText("Week: " + firstDay + " - " + lastDay);
+        dates.setText(getString(R.string.textViewWeek, firstDay, lastDay));
+        //dates.setText("Week: " + firstDay + " - " + lastDay);
         newYear = c.get(Calendar.YEAR);
         return c.get(Calendar.WEEK_OF_YEAR);
     }
@@ -317,7 +324,8 @@ public class GraphFragment extends Fragment {
         String firstDay = sdf.format(c.getTime());
         c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         String lastDay = sdf.format(c.getTime());
-        dates.setText("Week: " + firstDay + " - " + lastDay);
+        dates.setText(getString(R.string.textViewWeek, firstDay, lastDay));
+        //dates.setText("Week: " + firstDay + " - " + lastDay);
 
     }
 

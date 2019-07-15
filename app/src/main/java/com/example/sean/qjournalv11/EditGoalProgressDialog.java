@@ -13,6 +13,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ Fragment class which is called when user calls goal progress edit
+ **/
 public class EditGoalProgressDialog extends DialogFragment {
     private static final String ARG_PARAM1 = "Title";
     private static final String ARG_PARAM2 = "Goal";

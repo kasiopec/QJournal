@@ -10,7 +10,7 @@
         <item
             android:id="@+id/nav_activities"
             android:icon="@drawable/ic_star_rate_black"
-            android:title="Activities" />
+            android:title="History" />
 
         <item
             android:id="@+id/nav_help"
@@ -21,7 +21,7 @@
         <item
             android:id="@+id/nav_share"
             android:icon="@android:drawable/ic_menu_share"
-            android:title="Share with us" />
+            android:title="Share" />
 
     </group>
 

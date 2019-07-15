@@ -25,6 +25,9 @@ import android.widget.TextView;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ Class which represent edit category activity
+ **/
 public class EditCategoryActivity extends AppCompatActivity implements OnDialogCloseListener {
     LinearLayout ll;
     TextView bottomText;
@@ -44,10 +47,11 @@ public class EditCategoryActivity extends AppCompatActivity implements OnDialogC
         setContentView(com.example.sean.qjournalv11.R.layout.activity_edit_category);
 
 
-
+        //getting goal details from category adapter class
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("custom-msg"));
 
+        //Loading extras from above
         Bundle extras = getIntent().getExtras();
         passedCategory = extras.getString("category");
         passingFragmentName = extras.getString("tab_name");
@@ -61,6 +65,7 @@ public class EditCategoryActivity extends AppCompatActivity implements OnDialogC
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        //bottom bar for goal navigation appears on click in the category adapter class
         bottomAppBar = (BottomAppBar) findViewById(R.id.bottomAppBar);
         bottomAppBar.replaceMenu(R.menu.bottom_app_bar_menu);
 
@@ -71,27 +76,30 @@ public class EditCategoryActivity extends AppCompatActivity implements OnDialogC
                 FragmentManager fragManager= getSupportFragmentManager();
                 itr = data.iterator();
                 switch (id){
-
                     case R.id.appBarInsertProg:
                         int curProg = 0;
+                        //check for goals in the list
                         while (itr.hasNext()){
                             Goal g = itr.next();
                             if(g.getId() == Integer.parseInt(goalID)){
                                 curProg = g.getCurrentTime();
                             }
                         }
+                        //call edit goal progress fragment where user can change goal progress
                         EditGoalProgressDialog editGoalDialogProgress = EditGoalProgressDialog.newInstance(
                                 getApplicationContext(),
                                 "EditGoalProgressDialog",
                                 goalID, curProg,EditCategoryActivity.this);
                         editGoalDialogProgress.show(fragManager, "tag");
                         break;
+
                     case R.id.appBarEditGoal:
                         while (itr.hasNext()){
                             Goal g = itr.next();
                             if(g.getId() == Integer.parseInt(goalID)){
                                 Bundle bundle = new Bundle();
                                 bundle.putParcelable("Goal", g);
+                                //call edit goal fragment where user can edit goal content
                                 EditGoalDialog editGoalDialog  = EditGoalDialog.newInstance(getApplicationContext(), "EditGoal", EditCategoryActivity.this);
                                 editGoalDialog.setArguments(bundle);
                                 editGoalDialog.show(fragManager, "tag");
@@ -99,7 +107,7 @@ public class EditCategoryActivity extends AppCompatActivity implements OnDialogC
                         }
                         break;
 
-
+                    //deletes goal if delete button was pressed
                     case R.id.appBarDel:
                         db.removeGoal(goalID);
                         while (itr.hasNext()){
@@ -115,6 +123,7 @@ public class EditCategoryActivity extends AppCompatActivity implements OnDialogC
             }
         });
 
+        //floating button setup
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabBottomBar);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,32 +142,19 @@ public class EditCategoryActivity extends AppCompatActivity implements OnDialogC
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(categoryAdapter);
-
-
-
-
-
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-
-
-
-
-
     }
 
+    //broadcast receiver which listend for categoryAdapter data
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             goalID = intent.getStringExtra("goalID");
-
 
         }
     };
@@ -173,6 +169,7 @@ public class EditCategoryActivity extends AppCompatActivity implements OnDialogC
         return true;
     }
 
+    //when dialog box (fragment) is closed update recall recycleview with new data
     @Override
     public void onDialogClose() {
         data  = db.getAllCategoryGoals(passedCategory, passingFragmentName);
@@ -185,6 +182,7 @@ public class EditCategoryActivity extends AppCompatActivity implements OnDialogC
         while (itr.hasNext()){
             Goal g = itr.next();
             if(g.getId() == Integer.parseInt(goalID)){
+                //add selected goal name, not the best use of this feature
                 bottomAppBar.getMenu().findItem(R.id.appBarTitle).setTitle(g.getName());
             }
         }

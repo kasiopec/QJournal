@@ -42,11 +42,13 @@ public class ApplicationActivity extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        db = new DatabaseHelper(this);
 
+        db = new DatabaseHelper(this);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+
+        //Creating default values for notification setting in shared preferences
         editor = prefs.edit();
         if(!prefs.contains(DAILY_NOTIFICATION_BOOL)){
             editor.putBoolean(DAILY_NOTIFICATION_BOOL, true);
@@ -61,13 +63,17 @@ public class ApplicationActivity extends Application {
         editor.apply();
 
 
-
+        //custom method to launch new timer for daily notifictions, restart on new app open
         startNotificationTimer(this);
 
-
+        //custom method for creating notification channels
         createNotificationChannels();
+
+        //Notification push manager
         nt_mangerCompat = NotificationManagerCompat.from(this);
 
+
+        //Setting up update dates with calendar
         Date currentDate = new Date();
         Calendar c = Calendar.getInstance();
         Log.d("myUPD", "FDAYWEEK "+c.getFirstDayOfWeek());
@@ -79,12 +85,10 @@ public class ApplicationActivity extends Application {
         //int currentMonth = 7;
         int currentYear = c.get(Calendar.YEAR);
         if(!prefs.contains(UPDATE_WEEK) && !prefs.contains(UPDATE_MONTH)){
-            Log.d("myUPD", "Prefs does not exist. Creating prefs.");
             editor = prefs.edit();
             editor.putInt(UPDATE_WEEK, currentWeek);
             editor.putInt(UPDATE_MONTH, currentMonth);
             editor.apply();
-            Log.d("myUPD", "Prefs Created");
         }
         int updateWeek = prefs.getInt(UPDATE_WEEK, -1);
         int updateMonth = prefs.getInt(UPDATE_MONTH, -1);
@@ -97,7 +101,7 @@ public class ApplicationActivity extends Application {
         Log.d("myUPD", "week "+String.valueOf(updateWeek));
 
 
-
+        //checking if weekly updates were done
         if(currentWeek != updateWeek && updateWeek != -1){
             timeFrame = "Weekly";
             Log.d("myUPD", "Weeks are different, beginning database update");
@@ -110,7 +114,7 @@ public class ApplicationActivity extends Application {
             startResetNotification(timeFrame);
 
         }
-
+        //checking if monthly updates were done
         if (currentMonth != updateMonth && updateMonth != -1){
             timeFrame = "Monthly";
             Log.d("myUPD", "Months are different, updating database");
@@ -127,6 +131,7 @@ public class ApplicationActivity extends Application {
 
     }
 
+    //Method to create notification channels for Oreo and higher.
     private void createNotificationChannels(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel ch_weekly = new NotificationChannel(
@@ -152,9 +157,10 @@ public class ApplicationActivity extends Application {
 
         }
     }
-
+    //Method which sends reset notification on reset complete
     public void startResetNotification(String timeFrame){
 
+        //bools from settings activity
         boolean generalResetNotify = prefs.getBoolean(GENERAL_NOTIFICATIONS_BOOL, true);
         boolean weeklyNotify = prefs.getBoolean(WEEKLY_NOTIFICATIONS_BOOL, true);
         boolean monthlyNotify = prefs.getBoolean(MONTHLY_NOTIFICATIONS_BOOL, true);
@@ -193,6 +199,7 @@ public class ApplicationActivity extends Application {
 
     }
 
+    //Method to start daily notification
     public void startNotificationTimer(Context context){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -209,13 +216,8 @@ public class ApplicationActivity extends Application {
 
         if(dailyNotify){
 
-
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-
-            String s = String.valueOf(Double.valueOf(prefs.getString(NOTIFICATION_TIME, "2")) * 60);
-            Log.d("alarma", "shared pref value now: " + s);
-
 
             int notificationTime = (int) Math.round(Double.valueOf(prefs.getString(NOTIFICATION_TIME, "2")) * 60);
             Log.d("alarma", "rounded number: "+String.valueOf(notificationTime));
@@ -226,12 +228,6 @@ public class ApplicationActivity extends Application {
 
 
             if(manager != null){
-                /*
-                manager.setRepeating(AlarmManager.RTC_WAKEUP,
-                        calendar.getTimeInMillis(),
-                        repeatIn,
-                        pendingIntent);
-                */
                 manager.setExact(AlarmManager.RTC_WAKEUP,
                         calendar.getTimeInMillis(),
                         pendingIntent);
@@ -252,7 +248,7 @@ public class ApplicationActivity extends Application {
                     receiver,
                     PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
                     PackageManager.DONT_KILL_APP);
-
+        //killing alarm if daily notifications are disabled
         }else{
             if(PendingIntent.getBroadcast(context,
                     0, alarmIntent, 0) != null && manager != null){

@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 
@@ -23,14 +23,14 @@
     <ProgressBar
         android:id="@+id/progressBarGoal"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="250dp"
-        android:progressTint="@color/colorProgBarPercentage"
+        android:layout_width="0dp"
         android:layout_height="7dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="8dp"
         android:elevation="10dp"
+        android:progressTint="@color/colorProgBarPercentage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,13 +40,10 @@
         android:id="@+id/textGoalProg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/textGoalName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.935"
-        app:layout_constraintStart_toEndOf="@+id/textGoalName"
         app:layout_constraintTop_toTopOf="@+id/textGoalName"
         app:layout_constraintVertical_bias="0.0" />
 

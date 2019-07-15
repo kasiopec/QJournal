@@ -14,6 +14,10 @@ import java.util.Objects;
 
 import static com.example.sean.qjournalv11.SettingsActivity.NOTIFICATION_TIME;
 
+
+/**
+ Class which tracks device boot event and restarts daily notification if it was present
+ **/
 public class DeviceBootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

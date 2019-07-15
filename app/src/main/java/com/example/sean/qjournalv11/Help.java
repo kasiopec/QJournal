@@ -17,29 +17,48 @@ public class Help extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help);
 
-        TextView txthelpv = (TextView) findViewById(R.id.txthelp);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        TextView txthelpv = (TextView) findViewById(R.id.textViewHelpBody);
         txthelpv.setMovementMethod(new ScrollingMovementMethod());
-        txthelpv.setText(Html.fromHtml("<b>Help</b>" +  "<br /><br />" +
-                "<b>Add category</b><br /><small> This App is quick journal App and for that all entry must be tagged by " +
-                "a category, so you can add one event just by defining time and that event automatically tagged by its category</small>" + "<br /><br />" +
-                "<b>Event</b><br /><small>After adding a category you can add an event under that category, an event could be simply " +
-                "left empty and just keep the category as a lable, please be careful after adding event we don't create any " +
-                "message because this is quick journal and we directly take you to the page which you can add next event, if something " +
-                " needed to reedit or change you can find your entry alltimes in history page on the left drawer</small><br /><br />" +
-                "<b>NewGoalActivity</b><br /><small>You can allwasy find all your event and categories in specific period of time in that page and " +
-                "you can simply edit them</small><br /><br />"+
-                "<b>Goal</b><br /><small>After you add a category, then you can choose that as goal, in this way you can follow how much time have you practice " +
-                "that category in the target time</small><br /><br />"+
-                "<b>Activity</b><br /><small>You can see how much time you spend in one special activiy in each day for a weekly period as a barchart</small><br /><br />"+
-                "<b>Reminder</b><br /><small>In the start page of the App you can set a reminder, then you get a notification after the time past so you can remember" +
-                " when is the time to add new category or event</small>"));
+        txthelpv.setText(Html.fromHtml("<b>Main screen & Goals</b><br />" +
+                "<small> Main screen displays active weekly or monthly goals set by user. Swipe left or right to switch between weekly or monthly goals. " +
+                "Goals are grouped by categories. Each category can have unlimited amount of goals. " +
+                "On the card user can see goal name and progress towards set goal time. " +
+                "Goals progress will automatically reset depending on which reset type was selected when creating a goal - once per week or once per month. This option can be changed.</small>" +
+                "<br /><br />" +
+                "<b>New goal</b>" +
+                "<br />" +
+                "<small>To add a new goal user must click on the floating button at the bottom of the screen. " +
+                "On click user will be redirected to a new screen where goal data should be inserted and saved. " +
+                "When saved, goal appears on the main screen.</small>" +
+                "<br /><br />" +
+                "<b>Categories</b>" +
+                "<br />" +
+                "<small>When user creates a goal to track it needs to pick category. " +
+                "By default there is small list which can be used as inspiration or if it fits well used as a real category. " +
+                "User is able to add his own categories by pressing on + sign when creating a new goal." +
+                "When goal is created it will be added to the category section and later displayed on the main screen. " +
+                "By tapping on the triple dot icon in the right corner of the category user can decide on further actions (delete or edit). </small>" +
+                "<br /><br />"+
+                "<b>History </b><br />" +
+                "<small>This screen allows user to see how much time was spent on goals within specific category. " +
+                "All the data is represented as bar charts. " +
+                "On top of that user can cycle between weeks or months to see time spent on activities during previous weeks and months.</small>" +
+                "<br /><br />"+
+                "<b>Notifications</b>" +
+                "<br />" +
+                "<small>Notification are informing user about weekly and monthly resets as well as daily reminders to update goals progress. Time in which daily reminder appears " +
+                "can be modified by the user. Lowest time period can be set to 30 min and highest to 24 hours. All notifications can be disabled in the setting screen.</small>"));
+
+    }
 
 
-        Button buttonhome = (Button) findViewById(com.example.sean.qjournalv11.R.id.home);
-        buttonhome.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

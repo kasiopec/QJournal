@@ -16,6 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+/**
+ Fragment class which is called when user calls goal edit
+ **/
+
 public class EditGoalDialog extends DialogFragment {
     EditText goalName, goalHours, goalMin;
     Spinner spinnerWM;
@@ -68,7 +72,7 @@ public class EditGoalDialog extends DialogFragment {
 
         ArrayAdapter<CharSequence> adapterWM = ArrayAdapter.createFromResource(view.getContext(),
                 R.array.period_arrays, android.R.layout.simple_spinner_dropdown_item);
-
+        goalName.setText(passedGoal.getName());
         spinnerWM.setDropDownVerticalOffset(97);
         spinnerWM.setAdapter(adapterWM);
 
@@ -89,7 +93,12 @@ public class EditGoalDialog extends DialogFragment {
                 int hours = 0;
                 int min  = 0;
                 int newGoalTime = hours*60 + min;
-                if(goalMin.getText().toString().equals("") && goalHours.getText().length() > 0){
+                if(name.equals("")){
+                    nameTil.setError("Name can not be empty");
+                    return;
+                }
+                //check for edit box values. Hours are converted to minutes or does nothing if empty
+                else if(goalMin.getText().toString().equals("") && goalHours.getText().length() > 0){
                     hours = Integer.parseInt(goalHours.getText().toString());
                     newGoalTime = hours*60 + min;
                     passedGoal.setGoalTime(newGoalTime);
@@ -125,7 +134,7 @@ public class EditGoalDialog extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        //resize fragment, for some reason android wasn't able to use values from XML
         ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
