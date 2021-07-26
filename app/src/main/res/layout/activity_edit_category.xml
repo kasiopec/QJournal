@@ -9,7 +9,7 @@
     android:layout_gravity="center_horizontal"
     android:animateLayoutChanges="true"
     android:background="@color/colorWhite"
-    tools:context=".EditCategoryActivity" >
+    tools:context="com.kasiopec.qjournal.EditCategoryActivity" >
 
 
     <androidx.recyclerview.widget.RecyclerView

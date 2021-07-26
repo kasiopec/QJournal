@@ -5,7 +5,7 @@
     android:id="@+id/relativeLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShowGraphs">
+    tools:context="com.kasiopec.qjournal.ShowGraphs">
 
     <LinearLayout
         android:id="@+id/chart"

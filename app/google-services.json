@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "323830650436",
+    "project_id": "qjournal-91f62",
+    "storage_bucket": "qjournal-91f62.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323830650436:android:1b6d760b430021c67e8e11",
+        "android_client_info": {
+          "package_name": "com.kasiopec.qjournal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "323830650436-qsvhlvmever1kc5oplpmglatetvdbgsm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB04mHhN_UcWRexzpQrYT3wkNLySBtaaUw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "323830650436-qsvhlvmever1kc5oplpmglatetvdbgsm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
