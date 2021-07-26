@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -14,11 +14,11 @@
         <item name="android:maxHeight">20dip</item>
     </style>
 
-    <style name="myDialog" parent="Theme.AppCompat.Dialog">
+    <style name="myDialog" parent="Theme.MaterialComponents.Dialog">
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="MyAppBarLayoutTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="MyAppBarLayoutTheme" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="colorControlHighlight">@color/colorWhite</item>
     </style>
 
@@ -29,9 +29,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
     <style name="LargeBlueFont">
         <item name="android:textColor">#ffffff</item>
     </style>
