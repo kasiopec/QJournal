@@ -4,6 +4,15 @@ android {
     useLibrary 'org.apache.http.legacy'
 }
 android {
+
+    signingConfigs {
+        release {
+            storeFile file('D:\\My Projects\\QJournal\\qjournal-key-upload.jks')
+            storePassword '2=YpFn7fActbn]yn'
+            keyPassword '2=YpFn7fActbn]yn'
+            keyAlias 'upload'
+        }
+    }
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.kasiopec.qjournal"
@@ -18,6 +27,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
