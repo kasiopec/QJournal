@@ -13,13 +13,13 @@ android {
             keyAlias 'upload'
         }
     }
-    compileSdkVersion 30
+    compileSdkVersion 33
     defaultConfig {
         applicationId "com.kasiopec.qjournal"
         minSdkVersion 19
-        targetSdkVersion 30
-        versionCode 3
-        versionName "2.1"
+        targetSdkVersion 33
+        versionCode 4
+        versionName "2.2"
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 

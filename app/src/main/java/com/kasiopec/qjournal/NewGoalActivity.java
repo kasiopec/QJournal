@@ -48,8 +48,6 @@ public class NewGoalActivity extends AppCompatActivity
         db = new DatabaseHelper(this);
         categories = db.getAllCategories();
 
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -195,7 +195,7 @@ public class ApplicationActivity extends Application {
 
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_MUTABLE);
         PackageManager packageManager = context.getPackageManager();
         ComponentName receiver = new ComponentName(context, DeviceBootReceiver.class);
 
@@ -231,7 +231,7 @@ public class ApplicationActivity extends Application {
         //killing alarm if daily notifications are disabled
         }else{
             if(PendingIntent.getBroadcast(context,
-                    0, alarmIntent, 0) != null && manager != null){
+                    0, alarmIntent, PendingIntent.FLAG_MUTABLE) != null && manager != null){
                 manager.cancel(pendingIntent);
             }
 
