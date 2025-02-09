@@ -1,6 +1,6 @@
 [versions]
 # Core
-kotlin = "1.9.22"
+kotlin = "2.1.10"
 androidGradlePlugin = "8.5.2"
 googleServices = "4.4.2"
 
