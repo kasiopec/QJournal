@@ -1,7 +1,7 @@
 [versions]
 # Core
 kotlin = "2.1.10"
-androidGradlePlugin = "8.6.0-alpha01"
+androidGradlePlugin = "8.9.0-rc01"
 googleServices = "4.4.2"
 
 coreKtx = "1.15.0"
