@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
-import static com.kasiopec.qjournal.SettingsActivity.NOTIFICATION_TIME;
+import static com.kasiopec.qjournal.SettingsActivity.NOTIFICATION_TIME_KEY;
 
 
 /**
@@ -32,7 +32,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            int notificationTime = Integer.valueOf(prefs.getString(NOTIFICATION_TIME, "2")) * 60;
+            int notificationTime = Integer.valueOf(prefs.getString(NOTIFICATION_TIME_KEY, "2")) * 60;
             calendar.add(Calendar.MINUTE, notificationTime);
 
 

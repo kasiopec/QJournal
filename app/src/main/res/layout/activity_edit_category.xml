@@ -47,6 +47,7 @@
                 android:id="@+id/fabBottomBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:importantForAccessibility="no"
                 app:layout_anchor="@id/bottomAppBar"
                 app:srcCompat="@drawable/ic_close_black_24dp" />
 
@@ -58,7 +59,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:clickable="false"
-                android:theme="@style/MyAppBarLayoutTheme"
                 app:backgroundTint="@color/colorPrimary"
                 app:fabAlignmentMode="end">
 

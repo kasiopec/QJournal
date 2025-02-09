@@ -25,6 +25,10 @@ android {
         }
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     signingConfigs {
         create("release") {
             val keystoreProperties = Properties()
@@ -65,6 +69,7 @@ android {
 
 dependencies {
     implementation(libs.core.ktx)
+    implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraint.layout)

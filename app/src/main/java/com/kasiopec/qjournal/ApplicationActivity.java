@@ -19,7 +19,7 @@ import androidx.core.app.NotificationManagerCompat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.kasiopec.qjournal.SettingsActivity.NOTIFICATION_TIME;
+import static com.kasiopec.qjournal.SettingsActivity.NOTIFICATION_TIME_KEY;
 
 public class ApplicationActivity extends Application {
     public static final String UPDATE_WEEK = "QJournalUpdateWeek";
@@ -27,7 +27,7 @@ public class ApplicationActivity extends Application {
     public static final String NOTIFICATION_CH_ID1 = "weekly_notifications";
     public static final String NOTIFICATION_CH_ID2 = "monthly_notifications";
     public static final String DAILY_NOTIFICATION_BOOL = "DailyNotifications";
-    public static final String GENERAL_NOTIFICATIONS_BOOL = "GeneralResetNotifications";
+    public static final String RESET_NOTIFICATIONS = "GeneralResetNotifications";
     public static final String WEEKLY_NOTIFICATIONS_BOOL = "WeeklyNotifications";
     public static final String MONTHLY_NOTIFICATIONS_BOOL = "MonthlyNotifications";
     private static DatabaseHelper db;
@@ -51,8 +51,8 @@ public class ApplicationActivity extends Application {
         editor = prefs.edit();
         if(!prefs.contains(DAILY_NOTIFICATION_BOOL)){
             editor.putBoolean(DAILY_NOTIFICATION_BOOL, true);
-        }else if(!prefs.contains(GENERAL_NOTIFICATIONS_BOOL)){
-            editor.putBoolean(GENERAL_NOTIFICATIONS_BOOL, true);
+        }else if(!prefs.contains(RESET_NOTIFICATIONS)){
+            editor.putBoolean(RESET_NOTIFICATIONS, true);
         }else if (!prefs.contains(WEEKLY_NOTIFICATIONS_BOOL)){
             editor.putBoolean(WEEKLY_NOTIFICATIONS_BOOL, true);
         }else if(!prefs.contains(MONTHLY_NOTIFICATIONS_BOOL)){
@@ -148,7 +148,7 @@ public class ApplicationActivity extends Application {
     public void startResetNotification(String timeFrame){
 
         //bools from settings activity
-        boolean generalResetNotify = prefs.getBoolean(GENERAL_NOTIFICATIONS_BOOL, true);
+        boolean generalResetNotify = prefs.getBoolean(RESET_NOTIFICATIONS, true);
         boolean weeklyNotify = prefs.getBoolean(WEEKLY_NOTIFICATIONS_BOOL, true);
         boolean monthlyNotify = prefs.getBoolean(MONTHLY_NOTIFICATIONS_BOOL, true);
 
@@ -204,7 +204,7 @@ public class ApplicationActivity extends Application {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
 
-            int notificationTime = (int) Math.round(Double.valueOf(prefs.getString(NOTIFICATION_TIME, "2")) * 60);
+            int notificationTime = (int) Math.round(Double.valueOf(prefs.getString(NOTIFICATION_TIME_KEY, "2")) * 60);
 
             calendar.add(Calendar.MINUTE, notificationTime);
 

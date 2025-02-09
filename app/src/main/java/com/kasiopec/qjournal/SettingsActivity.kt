@@ -1,166 +1,131 @@
-package com.kasiopec.qjournal;
+package com.kasiopec.qjournal
 
-import static com.kasiopec.qjournal.ApplicationActivity.DAILY_NOTIFICATION_BOOL;
-import static com.kasiopec.qjournal.ApplicationActivity.GENERAL_NOTIFICATIONS_BOOL;
-import static com.kasiopec.qjournal.ApplicationActivity.MONTHLY_NOTIFICATIONS_BOOL;
-import static com.kasiopec.qjournal.ApplicationActivity.WEEKLY_NOTIFICATIONS_BOOL;
+import android.content.Intent
+import android.content.SharedPreferences
+import android.os.Build
+import android.os.Bundle
+import android.preference.PreferenceManager
+import android.view.MenuItem
+import android.view.View
+import android.view.WindowInsetsController
+import android.view.WindowManager
+import android.widget.CompoundButton
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
+import com.kasiopec.qjournal.databinding.ActivitySettingsBinding
+import com.kasiopec.qjournal.view.viewBinding
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.widget.Button;
-import android.widget.EditText;
+class SettingsActivity : AppCompatActivity() {
+    private val binding by viewBinding(ActivitySettingsBinding::inflate)
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-
-import java.util.Objects;
-
-public class SettingsActivity extends AppCompatActivity {
-
-    private EditText notifText;
-    private static final double DEFAULT_NOTIFICATION_TIME = 2.0;
-    public static String NOTIFICATION_TIME = "NotificationTime";
-
-
-    private double notifyTime;
-    private SharedPreferences prefs;
-    private SharedPreferences.Editor editor;
-
-    private SwitchCompat switchDaily, switchWeekly, switchMonthly, switchResetGen;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        if (!prefs.contains(NOTIFICATION_TIME)) {
-            editor = prefs.edit();
-            editor.putString(NOTIFICATION_TIME, String.valueOf(DEFAULT_NOTIFICATION_TIME));
-            editor.apply();
-            notifyTime = DEFAULT_NOTIFICATION_TIME;
-        } else {
-            notifyTime = Double.parseDouble(prefs.getString(NOTIFICATION_TIME, "-1"));
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
         }
 
 
-        Button btnInc = findViewById(R.id.btnInc);
-        Button btnDec = findViewById(R.id.btnDec);
-        Button btnApply = findViewById(R.id.btnApply);
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
 
-        switchDaily = findViewById(R.id.switchDaily);
-        switchResetGen = findViewById(R.id.switchResetGen);
-        switchWeekly = findViewById(R.id.switchWeekly);
-        switchMonthly = findViewById(R.id.switchMonthly);
-
-        applySwitchState();
-
-
-        switchDaily.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            editor = prefs.edit();
-
-            editor.putBoolean(DAILY_NOTIFICATION_BOOL, isChecked);
-
-            editor.apply();
-        });
-
-        switchResetGen.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            editor = prefs.edit();
-            if (isChecked) {
-                editor.putBoolean(GENERAL_NOTIFICATIONS_BOOL, true);
-                switchWeekly.setClickable(true);
-                switchMonthly.setClickable(true);
-
-            } else {
-                editor.putBoolean(GENERAL_NOTIFICATIONS_BOOL, false);
-                switchWeekly.setClickable(false);
-                switchMonthly.setClickable(false);
+        if (!preferences.contains(NOTIFICATION_TIME_KEY)) {
+            preferences.edit {
+                putString(NOTIFICATION_TIME_KEY, DEFAULT_NOTIFICATION_TIME.toString())
+                apply()
             }
-            editor.apply();
-        });
-
-        switchWeekly.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            editor = prefs.edit();
-            if (isChecked) {
-                editor.putBoolean(WEEKLY_NOTIFICATIONS_BOOL, true);
-            } else {
-                editor.putBoolean(WEEKLY_NOTIFICATIONS_BOOL, false);
-            }
-            editor.apply();
-        });
-
-        switchMonthly.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            editor = prefs.edit();
-            if (isChecked) {
-                editor.putBoolean(MONTHLY_NOTIFICATIONS_BOOL, true);
-            } else {
-                editor.putBoolean(MONTHLY_NOTIFICATIONS_BOOL, false);
-            }
-            editor.apply();
-        });
-
-        notifText = findViewById(R.id.notifEditTextSet);
-
-        notifText.setText(String.valueOf(notifyTime));
-        btnInc.setText("+");
-        btnInc.setOnClickListener(v -> {
-            notifyTime = notifyTime + 0.5;
-            if (notifyTime > 24) {
-                notifyTime = 24;
-            }
-            notifText.setText(String.valueOf(notifyTime));
-        });
-        btnDec.setText("-");
-        btnDec.setOnClickListener(v -> {
-            notifyTime = notifyTime - 0.5;
-            if (notifyTime < 0.5) {
-                notifyTime = 0.5;
-            }
-            notifText.setText(String.valueOf(notifyTime));
-        });
-
-        btnApply.setOnClickListener(v -> {
-            editor = prefs.edit();
-            editor.putString(NOTIFICATION_TIME, notifText.getText().toString());
-            editor.apply();
-
-            ApplicationActivity appActivity = new ApplicationActivity();
-            appActivity.startNotificationTimer(SettingsActivity.this);
-
-            Intent i = new Intent(SettingsActivity.this, MainActivity.class);
-            startActivity(i);
-
-        });
-
-
-    }
-
-    private void applySwitchState() {
-        switchDaily.setChecked(prefs.getBoolean(DAILY_NOTIFICATION_BOOL, true));
-
-        if (prefs.getBoolean(GENERAL_NOTIFICATIONS_BOOL, true)) {
-            switchResetGen.setChecked(true);
-        } else {
-            switchResetGen.setChecked(false);
-            switchMonthly.setClickable(false);
-            switchWeekly.setClickable(false);
         }
 
-        switchWeekly.setChecked(prefs.getBoolean(WEEKLY_NOTIFICATIONS_BOOL, true));
+        setupSwitches(preferences)
 
-        switchMonthly.setChecked(prefs.getBoolean(MONTHLY_NOTIFICATIONS_BOOL, true));
+        with(binding) {
+            switchDaily.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+                preferences.edit {
+                    putBoolean(ApplicationActivity.DAILY_NOTIFICATION_BOOL, isChecked)
+                    apply()
+                }
+            }
+            switchResetGen.setOnCheckedChangeListener { _: CompoundButton?, checked: Boolean ->
+                preferences.edit {
+                    putBoolean(ApplicationActivity.RESET_NOTIFICATIONS, checked)
+                    apply()
+                }
+                switchWeekly.apply {
+                    isChecked = checked
+                    isClickable = checked
+                }
+                switchMonthly.apply {
+                    isChecked = checked
+                    isClickable = checked
+                }
+            }
+
+            switchWeekly.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+                preferences.edit {
+                    putBoolean(ApplicationActivity.WEEKLY_NOTIFICATIONS_BOOL, isChecked)
+                    apply()
+                }
+            }
+
+            switchMonthly.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+                preferences.edit {
+                    putBoolean(ApplicationActivity.MONTHLY_NOTIFICATIONS_BOOL, isChecked)
+                    apply()
+                }
+            }
+            val notifyTime = preferences.getString(NOTIFICATION_TIME_KEY, DEFAULT_NOTIFICATION_TIME.toString())
+            notificationIntervalEditField.setText(notifyTime.toString())
+
+            btnApply.setOnClickListener {
+                preferences.edit {
+                    putString(
+                        NOTIFICATION_TIME_KEY,
+                        notificationIntervalEditField.getText().toString()
+                    )
+                    apply()
+                }
+                startNotificationTimer()
+                startActivity(Intent(this@SettingsActivity, MainActivity::class.java))
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressedDispatcher.onBackPressed()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun startNotificationTimer() {
+        val appActivity = ApplicationActivity()
+        appActivity.startNotificationTimer(this)
     }
 
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+    private fun setupSwitches(preferences: SharedPreferences) {
+        with(binding) {
+            val isResetNotificationsEnabled = preferences.getBoolean(ApplicationActivity.RESET_NOTIFICATIONS, true)
+            val isDailyNotificationsEnabled = preferences.getBoolean(ApplicationActivity.DAILY_NOTIFICATION_BOOL, true)
+            val isWeeklyNotificationsEnabled = preferences.getBoolean(ApplicationActivity.WEEKLY_NOTIFICATIONS_BOOL, true)
+            val isMonthlyNotificationsEnabled = preferences.getBoolean(ApplicationActivity.MONTHLY_NOTIFICATIONS_BOOL, true)
+
+            switchWeekly.isChecked = isWeeklyNotificationsEnabled
+            switchMonthly.isChecked = isMonthlyNotificationsEnabled
+            switchDaily.isChecked = isDailyNotificationsEnabled
+            switchResetGen.isChecked = isResetNotificationsEnabled
+            switchResetGen.isChecked = isResetNotificationsEnabled.not()
+            switchMonthly.isClickable = isResetNotificationsEnabled.not()
+            switchWeekly.isClickable = isResetNotificationsEnabled.not()
+        }
+    }
+
+    companion object {
+        private const val DEFAULT_NOTIFICATION_TIME = 2.0
+        const val NOTIFICATION_TIME_KEY: String = "NotificationTime"
     }
 }

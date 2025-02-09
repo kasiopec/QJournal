@@ -364,7 +364,7 @@ public class GraphFragment extends Fragment {
         dataset = new BarDataSet(barEntries, "Minutes spent this "+LEGEND_LABEL);
         dataset.setColor(getResources().getColor(R.color.colorPrimary));
         dataset.setHighLightAlpha(0);
-        dataset.setLabel(labels.get(0));
+        dataset.setLabel("Hard");
         Description description = new Description();
         description.setText("");
         data = new BarData(dataset);

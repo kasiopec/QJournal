@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="settings_notification_interval_label">Close navigation drawer</string>
+    <string name="settings_notification_interval_label">Notification interval</string>
     <string name="settings_goals_reset_label">Goals reset notifications</string>
     <string name="settings_weekly_goals_label">Weekly goals reset</string>
     <string name="settings_monthly_goals_label">Monthly goals reset</string>
