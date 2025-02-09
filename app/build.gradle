@@ -12,11 +12,11 @@ android {
             keyAlias 'upload'
         }
     }
-    compileSdkVersion 33
+    compileSdkVersion 35
     defaultConfig {
         applicationId "com.kasiopec.qjournal"
-        minSdkVersion 19
-        targetSdkVersion 33
+        minSdkVersion 25
+        targetSdkVersion 35
         versionCode 5
         versionName "2.3"
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
