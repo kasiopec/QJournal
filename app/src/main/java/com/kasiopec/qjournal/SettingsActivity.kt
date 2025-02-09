@@ -2,13 +2,9 @@ package com.kasiopec.qjournal
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.MenuItem
-import android.view.View
-import android.view.WindowInsetsController
-import android.view.WindowManager
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
@@ -84,7 +80,6 @@ class SettingsActivity : AppCompatActivity() {
                     )
                     apply()
                 }
-                startNotificationTimer()
                 startActivity(Intent(this@SettingsActivity, MainActivity::class.java))
             }
         }
@@ -100,12 +95,6 @@ class SettingsActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-    private fun startNotificationTimer() {
-        val appActivity = ApplicationActivity()
-        appActivity.startNotificationTimer(this)
-    }
-
 
     private fun setupSwitches(preferences: SharedPreferences) {
         with(binding) {

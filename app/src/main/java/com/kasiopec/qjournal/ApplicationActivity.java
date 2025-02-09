@@ -1,25 +1,18 @@
 package com.kasiopec.qjournal;
 
-import android.app.AlarmManager;
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import java.util.Calendar;
 import java.util.Date;
-
-import static com.kasiopec.qjournal.SettingsActivity.NOTIFICATION_TIME_KEY;
 
 public class ApplicationActivity extends Application {
     public static final String UPDATE_WEEK = "QJournalUpdateWeek";
@@ -47,7 +40,6 @@ public class ApplicationActivity extends Application {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 
-        //Creating default values for notification setting in shared preferences
         editor = prefs.edit();
         if(!prefs.contains(DAILY_NOTIFICATION_BOOL)){
             editor.putBoolean(DAILY_NOTIFICATION_BOOL, true);
@@ -61,11 +53,6 @@ public class ApplicationActivity extends Application {
 
         editor.apply();
 
-
-        //custom method to launch new timer for daily notifictions, restart on new app open
-        startNotificationTimer(this);
-
-        //custom method for creating notification channels
         createNotificationChannels();
 
         //Notification push manager
@@ -155,7 +142,6 @@ public class ApplicationActivity extends Application {
 
         if(generalResetNotify){
             if(weeklyNotify && timeFrame.equals("Weekly")){
-                //call weekly notifications
 
                 Notification notificationWeekly = new NotificationCompat.Builder(this, NOTIFICATION_CH_ID1)
                         .setSmallIcon(R.drawable.ic_diary_black_24dp)
@@ -165,7 +151,7 @@ public class ApplicationActivity extends Application {
                         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                         .build();
 
-                nt_mangerCompat.notify(2, notificationWeekly);
+                // nt_mangerCompat.notify(2, notificationWeekly);
             }
 
             if(monthlyNotify && timeFrame.equals("Monthly")){
@@ -179,68 +165,9 @@ public class ApplicationActivity extends Application {
                         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                         .build();
 
-                nt_mangerCompat.notify(1, notificationMonthly);
+                // nt_mangerCompat.notify(1, notificationMonthly);
             }
         }
-
-
-    }
-
-    //Method to start daily notification
-    public void startNotificationTimer(Context context){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        boolean dailyNotify = prefs.getBoolean(DAILY_NOTIFICATION_BOOL, true);
-
-
-        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_MUTABLE);
-        PackageManager packageManager = context.getPackageManager();
-        ComponentName receiver = new ComponentName(context, DeviceBootReceiver.class);
-
-        if(dailyNotify){
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-
-            int notificationTime = (int) Math.round(Double.valueOf(prefs.getString(NOTIFICATION_TIME_KEY, "2")) * 60);
-
-            calendar.add(Calendar.MINUTE, notificationTime);
-
-            long repeatIn = notificationTime * 60 * 1000;
-
-
-            if(manager != null){
-                manager.setExact(AlarmManager.RTC_WAKEUP,
-                        calendar.getTimeInMillis(),
-                        pendingIntent);
-
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                    manager.setExactAndAllowWhileIdle(
-                            AlarmManager.RTC_WAKEUP,
-                            calendar.getTimeInMillis(),
-                            pendingIntent);
-                }
-            }
-
-            packageManager.setComponentEnabledSetting(
-                    receiver,
-                    PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
-                    PackageManager.DONT_KILL_APP);
-        //killing alarm if daily notifications are disabled
-        }else{
-            if(PendingIntent.getBroadcast(context,
-                    0, alarmIntent, PendingIntent.FLAG_MUTABLE) != null && manager != null){
-                manager.cancel(pendingIntent);
-            }
-
-            packageManager.setComponentEnabledSetting(receiver,
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                    PackageManager.DONT_KILL_APP);
-        }
-
-
 
 
     }

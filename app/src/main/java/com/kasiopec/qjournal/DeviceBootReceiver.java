@@ -24,7 +24,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
         if(Objects.equals(intent.getAction(), "android.intent.action.BOOT_COMPLETED")){
             Intent alarmIntent = new Intent(context, AlarmReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                    0, alarmIntent, 0);
+                    0, alarmIntent, PendingIntent.FLAG_IMMUTABLE);
 
             AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
