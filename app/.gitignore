@@ -1,1 +1,93 @@
-/build
+# Android Studio/IntelliJ specific
+.gradle/
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+captures/
+.navigation/
+.AndroidStudio*
+.local/
+/stacktrace/
+
+# Build artifacts
+build/
+app/build/
+*.apk
+*.ap_
+*.aar
+*.aab
+/outputs/
+
+# Generated files
+app/src/main/java/com/example/app/BuildConfig.java
+app/src/main/java/com/example/app/R.java
+app/src/main/res/values/generated.xml
+app/src/main/res/values/strings.xml
+
+# Local configuration
+local.properties
+/release/
+app/google-services.json
+app/google-services-*.json
+app/src/**/google_maps_api.xml
+
+# Keystores (use environment variables instead)
+*.jks
+*.keystore
+*.properties
+
+# Dependency caches
+.cxx/
+.gradle/
+
+# Logs
+*.log
+*.log.*
+crashlytics-build.log*
+/logs/
+/profiler/
+
+# System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# NDK
+.cxx/
+app/.cxx/
+app/build/intermediates/ndkBuild/
+app/build/intermediates/cmake/
+app/build/intermediates/cxx/
+
+# Profiling
+app/build/outputs/profiler/
+
+# Code coverage
+app/build/outputs/code_coverage/
+
+# R8/ProGuard mappings
+app/build/outputs/mapping/
+
+# Data Binding
+app/build/generated/data_binding_base_class_source_out/
+
+# Jetpack Compose
+.compose/
+
+# Fastlane (if used)
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# macOS
+*.swp
+*.swo
+*.swn
+*.swo
