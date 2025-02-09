@@ -3,7 +3,6 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.google.services)
 }
 
 android {
@@ -15,8 +14,8 @@ android {
         applicationId = "com.kasiopec.qjournal"
         minSdk = 25
         targetSdk = 35
-        versionCode = 6
-        versionName = "2.4"
+        versionCode = 8
+        versionName = "2.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -78,8 +77,6 @@ dependencies {
     implementation(libs.drawer.layout)
 
     implementation(libs.android.charts)
-
-    implementation(libs.firebase.analytics)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

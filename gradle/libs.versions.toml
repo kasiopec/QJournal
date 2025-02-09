@@ -2,7 +2,6 @@
 # Core
 kotlin = "2.1.10"
 androidGradlePlugin = "8.9.0-rc01"
-googleServices = "4.4.2"
 
 coreKtx = "1.15.0"
 lifecycleRuntime = "2.6.2"
@@ -19,13 +18,9 @@ junit = "4.13.2"
 androidxJunit = "1.2.1"
 espresso = "3.6.1"
 
-# Firebase
-firebaseAnalytics = "22.2.0"
-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 
 [libraries]
 # Core
@@ -39,11 +34,7 @@ recycler-view = { module = "androidx.recyclerview:recyclerview", version.ref = "
 drawer-layout = { module = "androidx.drawerlayout:drawerlayout", version.ref = "drawerLayout" }
 android-charts = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpAndroidCharts" }
 
-
 # Test
 junit = { module = "junit:junit", version.ref = "junit" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidxJunit" }
 espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
-
-# Firebase
-firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalytics" }

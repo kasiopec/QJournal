@@ -55,5 +55,4 @@
             android:name="com.kasiopec.qjournal.Help"
             android:label="@string/activityHelpTitle"/>
     </application>
-
 </manifest>
