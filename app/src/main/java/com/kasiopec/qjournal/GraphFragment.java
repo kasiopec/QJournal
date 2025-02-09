@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -362,15 +363,16 @@ public class GraphFragment extends Fragment {
         dataset = new BarDataSet(barEntries, "Minutes spent this "+LEGEND_LABEL);
         dataset.setColor(getResources().getColor(R.color.colorPrimary));
         dataset.setHighLightAlpha(0);
-
-        data = new BarData(labels, dataset);
+        dataset.setLabel(labels.get(0));
+        Description description = new Description();
+        description.setText("");
+        data = new BarData(dataset);
         chart.setData(data);
-        chart.setDescription("");
+        chart.setDescription(description);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         XAxis xAxis = chart.getXAxis();
-        xAxis.setLabelsToSkip(0);
-        chart.getAxisRight().setAxisMinValue(0f);
-        chart.getAxisLeft().setAxisMinValue(0f);
+        chart.getAxisRight().setAxisMinimum(0f);
+        chart.getAxisLeft().setAxisMinimum(0f);
         chart.getAxisRight().setEnabled(false);
         chart.getXAxis().setDrawGridLines(false);
 

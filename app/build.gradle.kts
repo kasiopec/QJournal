@@ -71,6 +71,9 @@ dependencies {
     implementation(libs.legacy.support)
     implementation(libs.recycler.view)
     implementation(libs.drawer.layout)
+
+    implementation(libs.android.charts)
+
     implementation(libs.firebase.analytics)
 
     testImplementation(libs.junit)
