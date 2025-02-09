@@ -1,4 +1,4 @@
-package com.kasiopec.qjournal;
+package com.kasiopec.qjournal.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.kasiopec.qjournal.entities.Goal;
+
 import java.util.ArrayList;
 import java.util.Collections;
 

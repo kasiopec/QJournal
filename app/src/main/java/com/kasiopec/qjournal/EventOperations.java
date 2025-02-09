@@ -13,6 +13,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.kasiopec.qjournal.entities.Event;
+
 public class EventOperations {
 
     // Database fields

@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.kasiopec.qjournal.entities.Goal;
+
 import java.util.List;
 
 /**

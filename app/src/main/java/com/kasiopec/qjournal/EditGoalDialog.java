@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.kasiopec.qjournal.entities.Goal;
 
 /**
  Fragment class which is called when user calls goal edit

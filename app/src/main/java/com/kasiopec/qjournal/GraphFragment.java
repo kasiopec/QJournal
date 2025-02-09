@@ -24,6 +24,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.kasiopec.qjournal.entities.Goal;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;

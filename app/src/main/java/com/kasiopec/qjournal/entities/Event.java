@@ -1,8 +1,4 @@
-package com.kasiopec.qjournal;
-
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
+package com.kasiopec.qjournal.entities;
 
 /**
  * Created by admin on 08-04-2016.

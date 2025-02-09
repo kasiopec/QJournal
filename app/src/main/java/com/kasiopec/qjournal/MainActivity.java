@@ -1,25 +1,20 @@
 package com.kasiopec.qjournal;
 
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationManagerCompat;
-import android.view.View;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -32,8 +27,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ParentFragment.OnFragmentInteractionListener {
 
     private EventOperations eventDBoperation;
-    private int hours;
-    private NotificationManagerCompat nt_mangerCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +37,13 @@ public class MainActivity extends AppCompatActivity
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         dbHelper.getWritableDatabase();
 
-        nt_mangerCompat = NotificationManagerCompat.from(this);
-
-
         FloatingActionButton fab = findViewById(R.id.fab);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, NewGoalActivity.class);
-                startActivity(intent);
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, NewGoalActivity.class);
+            startActivity(intent);
 
 
-            }
         });
 
 
@@ -64,16 +51,16 @@ public class MainActivity extends AppCompatActivity
         eventDBoperation.open();
 
 
-        Toolbar toolbar = (Toolbar) findViewById(com.kasiopec.qjournal.R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ViewPager viewPager =  (ViewPager) findViewById(R.id.viewPagerMain);
+        ViewPager viewPager = findViewById(R.id.viewPagerMain);
         setupViewPager(viewPager);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayoutMain);
+        TabLayout tabLayout = findViewById(R.id.tabLayoutMain);
         tabLayout.setupWithViewPager(viewPager);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(com.kasiopec.qjournal.R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, com.kasiopec.qjournal.R.string.navigation_drawer_open, com.kasiopec.qjournal.R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -126,19 +113,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public boolean isMyServiceRunning(Class<?> serviceClass){
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for(ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
-            if (serviceClass.getName().equals(service.service.getClassName())){
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(com.kasiopec.qjournal.R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -155,14 +132,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Intent i = new Intent(getBaseContext(), SettingsActivity.class);
-                startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_settings) {
+            Intent i = new Intent(getBaseContext(), SettingsActivity.class);
+            startActivity(i);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -190,7 +165,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(homeIntent);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(com.kasiopec.qjournal.R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

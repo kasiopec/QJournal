@@ -23,7 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.kasiopec.qjournal.R;
+import com.kasiopec.qjournal.entities.Goal;
 
 import java.util.ArrayList;
 import java.util.HashMap;

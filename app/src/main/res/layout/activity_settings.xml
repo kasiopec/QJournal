@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
+    android:fitsSystemWindows="true"
     tools:context="com.kasiopec.qjournal.SettingsActivity">
 
     <TextView
@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="Notification interval"
-        android:textSize="16sp"
+        android:text="@string/settings_notification_interval_label"
         android:textColor="@color/colorAlmostBlack"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -29,14 +29,14 @@
         android:background="@drawable/round_corners_blue_background"
         android:elevation="10dp"
         android:foreground="?attr/selectableItemBackground"
-        android:text="+"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toStartOf="@+id/notifEditTextSet"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/textViewNotifcationSettings"
-        app:layout_constraintTop_toTopOf="@+id/textViewNotifcationSettings" />
+        app:layout_constraintTop_toTopOf="@+id/textViewNotifcationSettings"
+        tools:text="+" />
 
     <Button
         android:id="@+id/btnDec"
@@ -47,12 +47,12 @@
         android:background="@drawable/round_corners_blue_background"
         android:elevation="10dp"
         android:foreground="?attr/selectableItemBackground"
-        android:text="-"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/notifEditTextSet"
-        app:layout_constraintTop_toTopOf="@+id/btnInc" />
+        app:layout_constraintTop_toTopOf="@+id/btnInc"
+        tools:text="-" />
 
     <EditText
         android:id="@+id/notifEditTextSet"
@@ -62,12 +62,14 @@
         android:cursorVisible="false"
         android:ems="10"
         android:hint=""
+        android:importantForAutofill="no"
         android:inputType="numberDecimal"
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/btnDec"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnInc"
-        app:layout_constraintTop_toTopOf="@+id/textViewNotifcationSettings" />
+        app:layout_constraintTop_toTopOf="@+id/textViewNotifcationSettings"
+        tools:ignore="LabelFor" />
 
     <View
         android:id="@+id/divider2"
@@ -89,7 +91,7 @@
         android:background="@drawable/round_corners_blue_background"
         android:elevation="10dp"
         android:foreground="?attr/selectableItemBackground"
-        android:text="Apply"
+        android:text="@string/settings_apply_button"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -101,13 +103,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="36dp"
-        android:text="Goals reset notifications"
+        android:text="@string/settings_goals_reset_label"
         android:textColor="@color/colorAlmostBlack"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchResetGen"
         android:layout_width="46dp"
         android:layout_height="36dp"
@@ -123,13 +125,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="Weekly goals reset"
+        android:text="@string/settings_weekly_goals_label"
         android:textColor="@color/colorAlmostBlack"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchWeekly"
         android:layout_width="46dp"
         android:layout_height="35dp"
@@ -145,13 +147,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="Monthly goals reset"
+        android:text="@string/settings_monthly_goals_label"
         android:textColor="@color/colorAlmostBlack"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchMonthly"
         android:layout_width="46dp"
         android:layout_height="36dp"
@@ -167,13 +169,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="64dp"
-        android:text="Daily notifications"
+        android:text="@string/settings_daily_goals_label"
         android:textColor="@color/colorAlmostBlack"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchDaily"
         android:layout_width="46dp"
         android:layout_height="36dp"
